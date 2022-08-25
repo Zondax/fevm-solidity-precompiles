@@ -88,5 +88,7 @@ jobs:
           lotus chain create-evm-actor ./build/cbor_test.bin >> create.txt
           cat create.txt
       - name: Invoke actor's method
-        run: echo "FIX ME"
+        run: |
+          lotus chain invoke-evm-actor $address b5cc88f3
+          lotus chain invoke-evm-actor $address bc8018b1
 
