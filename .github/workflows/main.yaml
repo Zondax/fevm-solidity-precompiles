@@ -18,8 +18,8 @@ jobs:
       - name: Compile contract file
         run: |
           solc contract/simplecoin.sol --output-dir ./build --overwrite --bin
-          mv contract/SimpleCoin.bin contract/simplecoin_hex.bin
-          xxd -r -p contract/simplecoin_hex.bin contract/simplecoin.bin
+          mv build/SimpleCoin.bin build/simplecoin_hex.bin
+          xxd -r -p build/simplecoin_hex.bin build/simplecoin.bin
       - name: Cache/restore binaries
         uses: actions/cache@v1
         with:
