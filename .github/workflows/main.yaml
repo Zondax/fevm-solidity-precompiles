@@ -24,7 +24,7 @@ jobs:
         uses: actions/cache@v1
         with:
           path: ./build
-          key: ${{ runner.os }}-${{ github.run_id }}
+          key: ${{ runner.os }}-${{ github.run_id }}-example
 
   test-example-terminal:
     name: "Test example with Lotus Terminal"
@@ -36,7 +36,7 @@ jobs:
         uses: actions/cache@v1
         with:
           path: ./build
-          key: ${{ runner.os }}-${{ github.run_id }}
+          key: ${{ runner.os }}-${{ github.run_id }}-example
       - name: Create Actor in Lotus
         run: |
           lotus version
@@ -69,7 +69,7 @@ jobs:
         uses: actions/cache@v1
         with:
           path: ./build
-          key: ${{ runner.os }}-${{ github.run_id }}
+          key: ${{ runner.os }}-${{ github.run_id }}-cbor
 
   test-cbor-terminal:
     name: "Test CBOR with Lotus Terminal"
@@ -81,7 +81,7 @@ jobs:
         uses: actions/cache@v1
         with:
           path: ./build
-          key: ${{ runner.os }}-${{ github.run_id }}
+          key: ${{ runner.os }}-${{ github.run_id }}-cbor
       - name: Create Actor in Lotus
         run: |
           lotus version
