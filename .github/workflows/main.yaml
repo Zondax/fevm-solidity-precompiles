@@ -16,7 +16,9 @@ jobs:
           sudo apt-get update
           sudo apt-get install -yy solc
       - name: Compile contract file
-        run: solc ./contract/simplecoin.sol
+        run: |
+          cd contract
+          solc ./simplecoin.sol
       - name: Cache/restore binaries
         uses: actions/cache@v1
         with:
