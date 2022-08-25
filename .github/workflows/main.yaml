@@ -28,7 +28,7 @@ jobs:
 
   test-example-terminal:
     name: "Test example with Lotus Terminal"
-    needs: [build]
+    needs: [build-example]
     timeout-minutes: 5
     runs-on: self-hosted
     steps:
@@ -73,7 +73,7 @@ jobs:
 
   test-cbor-terminal:
     name: "Test CBOR with Lotus Terminal"
-    needs: [build]
+    needs: [build-cbor]
     timeout-minutes: 5
     runs-on: self-hosted
     steps:
