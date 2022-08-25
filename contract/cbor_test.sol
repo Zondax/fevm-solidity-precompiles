@@ -6,7 +6,7 @@ contract CborTest {
     constructor() {}
 
     // serialize() --> Keccak-256 --> first 4 bytes --> bc8018b1
-    function serialize() public returns(string result) {
+    function serialize() public returns(string memory result) {
         return "";
     }
 
