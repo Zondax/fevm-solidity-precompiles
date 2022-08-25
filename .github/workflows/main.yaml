@@ -39,6 +39,7 @@ jobs:
           key: ${{ runner.os }}-${{ github.run_id }}-example
       - name: Create Actor in Lotus
         run: |
+          rm -f create.txt
           lotus version
           lotus chain create-evm-actor ./build/simplecoin.bin >> create.txt
           cat create.txt
@@ -84,6 +85,7 @@ jobs:
           key: ${{ runner.os }}-${{ github.run_id }}-cbor
       - name: Create Actor in Lotus
         run: |
+          rm -f create.txt
           lotus version
           lotus chain create-evm-actor ./build/cbor_test.bin >> create.txt
           cat create.txt
