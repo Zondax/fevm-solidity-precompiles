@@ -46,6 +46,7 @@ jobs:
       - name: Invoke actor's method
         run: |
           address=$(sed -n 's/^ID Address: //p' create.txt)
+          echo $address
           lotus chain invoke-evm-actor $address f8b2cb4f 0000000000000000000000000000000000000000000000000000000000000064
           lotus chain invoke-evm-actor $address f8b2cb4f 0000000000000000000000000000000000000000000000000000000000000065
 
@@ -91,6 +92,8 @@ jobs:
           cat create.txt
       - name: Invoke actor's method
         run: |
+          address=$(sed -n 's/^ID Address: //p' create.txt)
+          echo $address
           lotus chain invoke-evm-actor $address b5cc88f3
           lotus chain invoke-evm-actor $address bc8018b1
 
