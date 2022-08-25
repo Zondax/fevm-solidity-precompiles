@@ -16,13 +16,11 @@ jobs:
           sudo apt-get update
           sudo apt-get install -yy solc
       - name: Compile contract file
-        run: |
-          cd contract
-          solc simplecoin.sol --output-dir ./simplecoin.bin --overwrite --bin
+        run: solc contract/simplecoin.sol --output-dir ./build --overwrite --bin
       - name: Cache/restore binaries
         uses: actions/cache@v1
         with:
-          path: ./contract
+          path: ./build
           key: ${{ runner.os }}-${{ github.run_id }}
 
   test-terminal:
@@ -34,12 +32,12 @@ jobs:
       - name: Cache/restore binaries
         uses: actions/cache@v1
         with:
-          path: ./contract
+          path: ./build
           key: ${{ runner.os }}-${{ github.run_id }}
       - name: Create Actor in Lotus
         run: |
           lotus version
-          lotus chain create-evm-actor ./contract/simplecoin.bin >> create.txt
+          lotus chain create-evm-actor ./build/SimpleCoin.bin >> create.txt
           cat create.txt
       - name: Invoke actor's method
         run: |
