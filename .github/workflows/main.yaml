@@ -1,0 +1,47 @@
+name: "Checks"
+on:
+  - push
+
+jobs:
+  build:
+    name: "Build"
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Install dependencies
+        run: |
+          add-apt-repository ppa:ethereum/ethereum
+          apt-get update
+          apt-get install -yy solc
+      - name: Compile contract file
+        run: solc ./contract/simplecoin.bin
+      - name: Cache/restore binaries
+        uses: actions/cache@v1
+        with:
+          path: ./contract
+          key: ${{ runner.os }}-${{ github.run_id }}
+
+  test-terminal:
+    name: "Test with Lotus Terminal"
+    needs: [build]
+    timeout-minutes: 5
+    runs-on: self-hosted
+    steps:
+      - name: Cache/restore binaries
+        uses: actions/cache@v1
+        with:
+          path: ./contract
+          key: ${{ runner.os }}-${{ github.run_id }}
+      - name: Create Actor in Lotus
+        run: |
+          lotus version
+          lotus chain create-evm-actor ./contract/simplecoin.bin >> create.txt
+          cat create.txt
+      - name: Invoke actor's method
+        run: |
+          address=$(sed -n 's/^ID Address: //p' create.txt)
+          lotus chain invoke-evm-actor $address f8b2cb4f 0000000000000000000000000000000000000000000000000000000000000064
+          lotus chain invoke-evm-actor $address f8b2cb4f 0000000000000000000000000000000000000000000000000000000000000065
+
