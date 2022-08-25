@@ -18,7 +18,7 @@ jobs:
       - name: Compile contract file
         run: |
           cd contract
-          solc ./simplecoin.sol
+          solc simplecoin.sol --output-dir ./simplecoin.bin --overwrite --bin
       - name: Cache/restore binaries
         uses: actions/cache@v1
         with:
