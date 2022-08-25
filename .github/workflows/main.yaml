@@ -1,10 +1,10 @@
-name: "Checks"
+name: "Checks contract"
 on:
   - push
 
 jobs:
-  build:
-    name: "Build"
+  build-example:
+    name: "Build example"
     timeout-minutes: 10
     runs-on: ubuntu-latest
     steps:
@@ -26,8 +26,8 @@ jobs:
           path: ./build
           key: ${{ runner.os }}-${{ github.run_id }}
 
-  test-terminal:
-    name: "Test with Lotus Terminal"
+  test-example-terminal:
+    name: "Test example with Lotus Terminal"
     needs: [build]
     timeout-minutes: 5
     runs-on: self-hosted
@@ -47,4 +47,46 @@ jobs:
           address=$(sed -n 's/^ID Address: //p' create.txt)
           lotus chain invoke-evm-actor $address f8b2cb4f 0000000000000000000000000000000000000000000000000000000000000064
           lotus chain invoke-evm-actor $address f8b2cb4f 0000000000000000000000000000000000000000000000000000000000000065
+
+  build-cbor:
+    name: "Build CBOR"
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Install dependencies
+        run: |
+          sudo add-apt-repository ppa:ethereum/ethereum
+          sudo apt-get update
+          sudo apt-get install -yy solc
+      - name: Compile contract file
+        run: |
+          solc contract/cbor_test.sol --output-dir ./build --overwrite --bin
+          mv build/CborTest.bin build/cbor_test_hex.bin
+          xxd -r -p build/cbor_test_hex.bin build/cbor_test.bin
+      - name: Cache/restore binaries
+        uses: actions/cache@v1
+        with:
+          path: ./build
+          key: ${{ runner.os }}-${{ github.run_id }}
+
+  test-cbor-terminal:
+    name: "Test CBOR with Lotus Terminal"
+    needs: [build]
+    timeout-minutes: 5
+    runs-on: self-hosted
+    steps:
+      - name: Cache/restore binaries
+        uses: actions/cache@v1
+        with:
+          path: ./build
+          key: ${{ runner.os }}-${{ github.run_id }}
+      - name: Create Actor in Lotus
+        run: |
+          lotus version
+          lotus chain create-evm-actor ./build/cbor_test.bin >> create.txt
+          cat create.txt
+      - name: Invoke actor's method
+        run: echo "FIX ME"
 
