@@ -12,9 +12,9 @@ jobs:
         uses: actions/checkout@v2
       - name: Install dependencies
         run: |
-          add-apt-repository ppa:ethereum/ethereum
-          apt-get update
-          apt-get install -yy solc
+          sudo add-apt-repository ppa:ethereum/ethereum
+          sudo apt-get update
+          sudo apt-get install -yy solc
       - name: Compile contract file
         run: solc ./contract/simplecoin.bin
       - name: Cache/restore binaries
