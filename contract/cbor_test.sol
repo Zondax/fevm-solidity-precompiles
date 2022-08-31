@@ -16,6 +16,7 @@ contract CborTest {
     }
 
     // serializeAddress(address) --> Keccak-256 --> first 4 bytes --> 241d23b2
+    // 0000000000000000000000000000000000000000000000000000000000000064
     function serializeAddress(address addr) public returns(bytes memory result) {
         bytes memory res_ = abi.encodePacked(addr);
 
@@ -42,10 +43,11 @@ contract CborTest {
             offset = 2;
         }
 
-        for (uint i = l; i < res_.length; i++) {
+        tmp[offset] = res_[res_.length-l];
+        /*for (uint i = l; i < res_.length; i++) {
             tmp[offset+i] = res_[i];
-        }
+        }*/
 
-        return abi.encodePacked(res_);
+        return abi.encodePacked(tmp);
     }
 }
