@@ -5,6 +5,5 @@ const decoded_test = rlp.decode("0xed8205fc843b9aca00825208944592d8f8d7b001e72cb
 console.log(decoded_test)
 
 // Arguments for example contract method on CI
-const decoded_simplecoin = rlp.decode("0xf8b2cb4f")
+const decoded_simplecoin = rlp.decode("0000000000000000000000000000000000000000000000000000000000000064")
 console.log(decoded_simplecoin)
-
