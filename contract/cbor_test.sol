@@ -36,11 +36,11 @@ contract CborTest {
 
     // result
     // 0000000000000000000000000000000000000000000000000000000000000020 <-- offset (32 bytes)
-    // 0000000000000000000000000000000000000000000000000000000000000003 <-- length (32 bytes)
-    // 4164000000000000000000000000000000000000000000000000000000000000 <-- data[0] (32 bytes but only the 3 first matters)
+    // 0000000000000000000000000000000000000000000000000000000000000004 <-- length (32 bytes)
+    // 4200640000000000000000000000000000000000000000000000000000000000 <-- data[0] (32 bytes but only the 4 first matters)
     function serializeAddress(address addr) public returns(bytes memory result) {
-        bytes memory res_ = encodeUnsignedLeb128FromUInt64(uint64(uint160(addr)));
-        //bytes memory res_ = abi.encodePacked(addr);
+        //bytes memory res_ = encodeUnsignedLeb128FromUInt64(uint64(uint160(addr)));
+        bytes memory res_ = abi.encodePacked(addr);
 
         // calculate length
         uint8 l = 0;
@@ -70,16 +70,11 @@ contract CborTest {
         tmp[offset] = bytes1(0); // ID address it protocol 0
         offset += 1;
 
-        // tmp[offset] = res_[res_.length-l];
         for (uint i = (res_.length - l); i < res_.length; i++) {
-            tmp[offset+i] = res_[i];
+            tmp[offset] = res_[i];
+            offset += 1;
         }
 
         return tmp;
     }
 }
-
-// 0000000000000000000000000000000000000000000000000000000000000020
-// 0000000000000000000000000000000000000000000000000000000000000023
-// 5820006400000000000000000000000000000000000000000000000000000000
-// 0000000000000000000000000000000000000000000000000000000000000000
