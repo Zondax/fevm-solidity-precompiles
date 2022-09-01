@@ -15,10 +15,32 @@ contract CborTest {
         return true;
     }
 
+    
+    function encodeUnsignedLeb128FromUInt64(uint64 v) private returns(bytes memory result) {
+    bytes memory result = new bytes(32);
+    uint offset = 0;
+        while (true) {
+            uint64 byte_ = v & 0x7f;
+            v = v >> 7;
+            if (v == 0) {
+                result[offset] = bytes1(uint8(byte_));
+                return result;
+            }
+            result[offset] = bytes1(uint8(byte_ | 0x80));
+            offset = offset + 1;
+        }
+    }
+
     // serializeAddress(address) --> Keccak-256 --> first 4 bytes --> 241d23b2
-    // 0000000000000000000000000000000000000000000000000000000000000064
+    // 0000000000000000000000000000000000000000000000000000000000000064 <-- ID address
+
+    // result
+    // 0000000000000000000000000000000000000000000000000000000000000020 <-- offset (32 bytes)
+    // 0000000000000000000000000000000000000000000000000000000000000003 <-- length (32 bytes)
+    // 4164000000000000000000000000000000000000000000000000000000000000 <-- data[0] (32 bytes but only the 3 first matters)
     function serializeAddress(address addr) public returns(bytes memory result) {
-        bytes memory res_ = abi.encodePacked(addr);
+        bytes memory res_ = encodeUnsignedLeb128FromUInt64(uint64(uint160(addr)));
+        //bytes memory res_ = abi.encodePacked(addr);
 
         // calculate length
         uint8 l = 0;
@@ -28,26 +50,36 @@ contract CborTest {
                 break;
             } 
         }
+        // l += 1;
 
-        bytes memory tmp = new bytes(l+2);
+        // add protocol byte so length is +1 and 2 bytes max for cbor size
+        bytes memory tmp = new bytes(l+3);
         uint offset = 0;
         // cbor bytes
         if (l < 24) {
-            uint8 v = (2 << 5 | l);
+            uint8 v = (2 << 5 | (l+1));
             tmp[0] = bytes1(v);
             offset = 1;
         } else {
             uint8 v = (2 << 5 | 24);
             tmp[0] = bytes1(v);
-            tmp[1] = bytes1(l);
+            tmp[1] = bytes1(l+1);
             offset = 2;
         }
 
-        tmp[offset] = res_[res_.length-l];
-        /*for (uint i = l; i < res_.length; i++) {
-            tmp[offset+i] = res_[i];
-        }*/
+        tmp[offset] = bytes1(0); // ID address it protocol 0
+        offset += 1;
 
-        return abi.encodePacked(tmp);
+        // tmp[offset] = res_[res_.length-l];
+        for (uint i = (res_.length - l); i < res_.length; i++) {
+            tmp[offset+i] = res_[i];
+        }
+
+        return tmp;
     }
 }
+
+// 0000000000000000000000000000000000000000000000000000000000000020
+// 0000000000000000000000000000000000000000000000000000000000000023
+// 5820006400000000000000000000000000000000000000000000000000000000
+// 0000000000000000000000000000000000000000000000000000000000000000
