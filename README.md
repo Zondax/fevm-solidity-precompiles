@@ -17,3 +17,12 @@ Example:
                 return true;
         }
 ```
+
+## Benchmarking
+
+### Serializing an address compare to a send message
+
+serializeAddress : 82006530
+simple send tx: 413868
+
+We have +19814% gas use compare to a simple send transaction when serializing address from address to cbor format.

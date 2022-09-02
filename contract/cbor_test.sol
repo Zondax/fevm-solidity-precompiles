@@ -77,4 +77,8 @@ contract CborTest {
 
         return tmp;
     }
+
+    function serializeBool(bool value) public returns(bytes memory result) {
+            
+    }
 }
