@@ -94,6 +94,7 @@ jobs:
         run: |
           address=$(sed -n 's/^ID Address: //p' create.txt)
           echo $address
-          lotus chain invoke-evm-actor $address b5cc88f3
+          lotus chain invoke-evm-actor $address b5cc88f3 
           lotus chain invoke-evm-actor $address bc8018b1
+          lotus chain invoke-evm-actor $address 241d23b2 0000000000000000000000000000000000000000000000000000000000000064
 
