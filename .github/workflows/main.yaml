@@ -14,7 +14,7 @@ jobs:
         run: |
           sudo add-apt-repository ppa:ethereum/ethereum
           sudo apt-get update
-          sudo apt-get install -yy solc
+          sudo apt-get install -yy solc=0.8.15
       - name: Compile contract file
         run: |
           solc contract/simplecoin.sol --output-dir ./build --overwrite --bin
@@ -61,7 +61,7 @@ jobs:
         run: |
           sudo add-apt-repository ppa:ethereum/ethereum
           sudo apt-get update
-          sudo apt-get install -yy solc@0.8.15
+          sudo apt-get install -yy solc=0.8.15
       - name: Compile contract file
         run: |
           solc contract/cbor_test.sol --output-dir ./build --overwrite --bin
