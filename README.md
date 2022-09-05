@@ -1,5 +1,14 @@
 # FEVM CBOR PoC
 
+---
+
+![zondax_light](docs/assets/zondax_light.png#gh-light-mode-only)
+![zondax_dark](docs/assets/zondax_dark.png#gh-dark-mode-only)
+
+_Please visit our website at [zondax.ch](https://www.zondax.ch)_
+
+---
+
 ## Related documentation
 
 ### Entry point for calling function
