@@ -1,4 +1,6 @@
 # FEVM CBOR PoC
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![GithubActions](https://github.com/Zondax/fevm-cbor-poc/actions/workflows/main.yaml/badge.svg)](https://github.com/Zondax/fevm-cbor-poc/blob/master/.github/workflows/main.yaml)
 
 ---
 
