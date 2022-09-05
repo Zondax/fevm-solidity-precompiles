@@ -7,15 +7,11 @@ jobs:
     name: "Build example"
     timeout-minutes: 10
     runs-on: ubuntu-latest
+    container:
+      image: ethereum/solc:0.8.15
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Install dependencies
-        run: |
-          sudo add-apt-repository ppa:ethereum/ethereum
-          sudo apt-get update
-          apt-cache policy solc
-          sudo apt-get install -yy solc=0.8.15
       - name: Compile contract file
         run: |
           solc contract/simplecoin.sol --output-dir ./build --overwrite --bin
@@ -55,15 +51,11 @@ jobs:
     name: "Build CBOR"
     timeout-minutes: 10
     runs-on: ubuntu-latest
+    container:
+      image: ethereum/solc:0.8.15
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Install dependencies
-        run: |
-          sudo add-apt-repository ppa:ethereum/ethereum
-          sudo apt-get update
-          apt-cache policy solc
-          sudo apt-get install -yy solc=0.8.15
       - name: Compile contract file
         run: |
           solc contract/cbor_test.sol --output-dir ./build --overwrite --bin
