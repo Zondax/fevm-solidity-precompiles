@@ -1,2 +1,5 @@
 .idea
 **/*.bin
+**/*.signatures
+bin/*
+!bin/.gitkeep

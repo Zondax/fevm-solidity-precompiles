@@ -12,12 +12,12 @@ jobs:
         uses: actions/checkout@v2
       - name: Install dependencies
         run: |
-          sudo add-apt-repository ppa:ethereum/ethereum
-          sudo apt-get update
-          sudo apt-get install -yy solc
+          wget https://binaries.soliditylang.org/linux-amd64/solc-linux-amd64-v0.8.15+commit.e14f2714
+          mv solc-linux-amd64-v0.8.15+commit.e14f2714 solc
+          chmod +x solc
       - name: Compile contract file
         run: |
-          solc contract/simplecoin.sol --output-dir ./build --overwrite --bin
+          ./solc contract/simplecoin.sol --output-dir ./build --overwrite --bin
           mv build/SimpleCoin.bin build/simplecoin_hex.bin
           xxd -r -p build/simplecoin_hex.bin build/simplecoin.bin
       - name: Cache/restore binaries
@@ -59,12 +59,12 @@ jobs:
         uses: actions/checkout@v2
       - name: Install dependencies
         run: |
-          sudo add-apt-repository ppa:ethereum/ethereum
-          sudo apt-get update
-          sudo apt-get install -yy solc
+          wget https://binaries.soliditylang.org/linux-amd64/solc-linux-amd64-v0.8.15+commit.e14f2714
+          mv solc-linux-amd64-v0.8.15+commit.e14f2714 solc
+          chmod +x solc
       - name: Compile contract file
         run: |
-          solc contract/cbor_test.sol --output-dir ./build --overwrite --bin
+          ./solc contract/cbor_test.sol --output-dir ./build --overwrite --bin
           mv build/CborTest.bin build/cbor_test_hex.bin
           xxd -r -p build/cbor_test_hex.bin build/cbor_test.bin
       - name: Cache/restore binaries
@@ -94,6 +94,7 @@ jobs:
         run: |
           address=$(sed -n 's/^ID Address: //p' create.txt)
           echo $address
-          lotus chain invoke-evm-actor $address b5cc88f3
+          lotus chain invoke-evm-actor $address b5cc88f3 
           lotus chain invoke-evm-actor $address bc8018b1
+          lotus chain invoke-evm-actor $address 241d23b2 0000000000000000000000000000000000000000000000000000000000000064
 
