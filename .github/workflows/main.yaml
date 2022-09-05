@@ -59,9 +59,7 @@ jobs:
         uses: actions/checkout@v2
       - name: Install dependencies
         run: |
-          sudo add-apt-repository ppa:ethereum/ethereum
-          sudo apt-get update
-          sudo apt-get install -yy solc
+          make install_solc_linux
       - name: Compile contract file
         run: |
           solc contract/cbor_test.sol --output-dir ./build --overwrite --bin
