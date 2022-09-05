@@ -7,14 +7,17 @@ jobs:
     name: "Build example"
     timeout-minutes: 10
     runs-on: ubuntu-latest
-    container:
-      image: ethereum/solc:0.8.15
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+      - name: Install dependencies
+        run: |
+          wget https://binaries.soliditylang.org/linux-amd64/solc-linux-amd64-v0.8.15+commit.e14f2714
+          mv solc-linux-amd64-v0.8.15+commit.e14f2714 solc
+          chmod +x solc
       - name: Compile contract file
         run: |
-          solc contract/simplecoin.sol --output-dir ./build --overwrite --bin
+          ./solc contract/simplecoin.sol --output-dir ./build --overwrite --bin
           mv build/SimpleCoin.bin build/simplecoin_hex.bin
           xxd -r -p build/simplecoin_hex.bin build/simplecoin.bin
       - name: Cache/restore binaries
@@ -51,14 +54,17 @@ jobs:
     name: "Build CBOR"
     timeout-minutes: 10
     runs-on: ubuntu-latest
-    container:
-      image: ethereum/solc:0.8.15
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+      - name: Install dependencies
+        run: |
+          wget https://binaries.soliditylang.org/linux-amd64/solc-linux-amd64-v0.8.15+commit.e14f2714
+          mv solc-linux-amd64-v0.8.15+commit.e14f2714 solc
+          chmod +x solc
       - name: Compile contract file
         run: |
-          solc contract/cbor_test.sol --output-dir ./build --overwrite --bin
+          ./solc contract/cbor_test.sol --output-dir ./build --overwrite --bin
           mv build/CborTest.bin build/cbor_test_hex.bin
           xxd -r -p build/cbor_test_hex.bin build/cbor_test.bin
       - name: Cache/restore binaries
