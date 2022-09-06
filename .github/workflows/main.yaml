@@ -78,6 +78,8 @@ jobs:
     needs: [build-cbor]
     timeout-minutes: 5
     runs-on: self-hosted
+    outputs:
+      address: ${{ steps.invoke.outputs.address }}
     steps:
       - name: Cache/restore binaries
         uses: actions/cache@v1
@@ -91,10 +93,20 @@ jobs:
           lotus chain create-evm-actor ./build/cbor_test.bin >> create.txt
           cat create.txt
       - name: Invoke actor's method
+        id: invoke
         run: |
           address=$(sed -n 's/^ID Address: //p' create.txt)
           echo $address
+          echo "::set-output address::$address"
           lotus chain invoke-evm-actor $address b5cc88f3 
           lotus chain invoke-evm-actor $address bc8018b1
           lotus chain invoke-evm-actor $address 241d23b2 0000000000000000000000000000000000000000000000000000000000000064
 
+  benchmark-cbor:
+    name: "Benchmark CBOR with Lotus Terminal"
+    needs: [test-cbor-terminal]
+    timeout-minutes: 5
+    runs-on: self-hosted
+    steps:
+      - name: Print address
+        run: echo ${{ needs.test-cbor-terminal.outputs.address }}
