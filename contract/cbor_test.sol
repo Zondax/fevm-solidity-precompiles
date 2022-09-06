@@ -6,12 +6,12 @@ contract CborTest {
     constructor() {}
 
     // serialize() --> Keccak-256 --> first 4 bytes --> bc8018b1
-    function serialize() public returns(string memory result) {
+    function serialize() public pure returns(string memory result) {
         return "";
     }
 
     // deserialize() --> Keccak-256 --> first 4 bytes --> b5cc88f3
-    function deserialize() public returns(bool valid) {
+    function deserialize() public pure returns(bool valid) {
         return true;
     }
 
@@ -22,7 +22,7 @@ contract CborTest {
     // 0000000000000000000000000000000000000000000000000000000000000020 <-- offset (32 bytes)
     // 0000000000000000000000000000000000000000000000000000000000000004 <-- length (32 bytes)
     // 4200640000000000000000000000000000000000000000000000000000000000 <-- data[0] (32 bytes but only the 4 first matters)
-    function serializeAddress(address addr) public returns(bytes memory result) {
+    function serializeAddress(address addr) public pure returns(bytes memory result) {
         bytes memory res_ = abi.encodePacked(addr);
 
         // calculate length (maybe reverse ?)
@@ -63,7 +63,7 @@ contract CborTest {
         return tmp;
     }
 
-    function serializeBool(bool value) public returns(bytes memory result) {
+    function serializeBool(bool value) public pure returns(bytes memory result) {
         if (value) { return serializeTrue(); }
        
        return serializeFalse();
@@ -83,7 +83,7 @@ contract CborTest {
         return res;
     }
 
-    function serializeAddSigner(address signer, bool increase) public returns(bytes memory result) {
+    function serializeAddSigner(address signer, bool increase) public pure returns(bytes memory result) {
         bytes memory signerCBOR = serializeAddress(signer);
         bytes memory increaseCBOR = serializeBool(increase);
 
