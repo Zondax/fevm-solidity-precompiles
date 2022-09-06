@@ -101,6 +101,7 @@ jobs:
           lotus chain invoke-evm-actor $address b5cc88f3 
           lotus chain invoke-evm-actor $address bc8018b1
           lotus chain invoke-evm-actor $address 241d23b2 0000000000000000000000000000000000000000000000000000000000000064
+          lotus chain invoke-evm-actor $address b10d18b8 00000000000000000000000000000000000000000000000000000000000000640000000000000000000000000000000000000000000000000000000000000001
 
   benchmark-cbor:
     name: "Benchmark CBOR with Lotus Terminal"
@@ -108,7 +109,19 @@ jobs:
     timeout-minutes: 5
     runs-on: self-hosted
     steps:
-      - name: Print address
+      - name: Collect CIDs
         run: |
           lotus state list-messages --to ${{ needs.test-cbor-terminal.outputs.address }} | jq -r ".CID | .[]" > cids.txt
           cat cids.txt
+      - name: Get operation gas (1)
+        run: |
+          lotus state search-msg $( cat cids.txt | head -n 1 )
+      - name: Get operation gas (2)
+        run: |
+          lotus state search-msg $( cat cids.txt | head -n 2 )
+      - name: Get operation gas (3)
+        run: |
+          lotus state search-msg $( cat cids.txt | head -n 3 )
+      - name: Get operation gas (4)
+        run: |
+          lotus state search-msg $( cat cids.txt | head -n 4 )
