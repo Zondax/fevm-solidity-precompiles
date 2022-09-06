@@ -109,4 +109,6 @@ jobs:
     runs-on: self-hosted
     steps:
       - name: Print address
-        run: echo ${{ needs.test-cbor-terminal.outputs.address }}
+        run: |
+          lotus state list-messages --to ${{ needs.test-cbor-terminal.outputs.address }} | jq -r ".CID | .[]" > cids.txt
+          cat cids.txt
