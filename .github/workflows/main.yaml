@@ -115,13 +115,13 @@ jobs:
           cat cids.txt
       - name: Get operation gas (1)
         run: |
-          lotus state search-msg $( cat cids.txt | head -n 1 )
+          lotus state search-msg $( cat cids.txt | head -n 1 ) || true
       - name: Get operation gas (2)
         run: |
-          lotus state search-msg $( cat cids.txt | head -n 2 )
+          lotus state search-msg $( cat cids.txt | head -n 2 ) || true
       - name: Get operation gas (3)
         run: |
-          lotus state search-msg $( cat cids.txt | head -n 3 )
+          lotus state search-msg $( cat cids.txt | head -n 3 ) || true
       - name: Get operation gas (4)
         run: |
-          lotus state search-msg $( cat cids.txt | head -n 4 )
+          lotus state search-msg $( cat cids.txt | head -n 4 ) || true
