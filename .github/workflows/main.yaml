@@ -78,6 +78,8 @@ jobs:
     needs: [build-cbor]
     timeout-minutes: 5
     runs-on: self-hosted
+    outputs:
+      address: ${{ steps.invoke.outputs.address }}
     steps:
       - name: Cache/restore binaries
         uses: actions/cache@v1
@@ -91,10 +93,39 @@ jobs:
           lotus chain create-evm-actor ./build/cbor_test.bin >> create.txt
           cat create.txt
       - name: Invoke actor's method
+        id: invoke
         run: |
           address=$(sed -n 's/^ID Address: //p' create.txt)
           echo $address
+          echo "::set-output name=address::$address"
           lotus chain invoke-evm-actor $address b5cc88f3 
           lotus chain invoke-evm-actor $address bc8018b1
           lotus chain invoke-evm-actor $address 241d23b2 0000000000000000000000000000000000000000000000000000000000000064
+          lotus chain invoke-evm-actor $address b10d18b8 00000000000000000000000000000000000000000000000000000000000000640000000000000000000000000000000000000000000000000000000000000001
+
+  benchmark-cbor:
+    name: "Benchmark CBOR with Lotus Terminal"
+    needs: [test-cbor-terminal]
+    timeout-minutes: 5
+    runs-on: self-hosted
+    steps:
+      - name: Collect CIDs
+        run: |
+          lotus state list-messages --to ${{ needs.test-cbor-terminal.outputs.address }} | jq -r ".CID | .[]" > cids.txt
+          cat cids.txt
+      - name: Get operation gas (1)
+        run: |
+          lotus state search-msg $( cat cids.txt | sed -n 1p ) | sed -n 's/^Gas Used: //p' >> gas.txt || true
+      - name: Get operation gas (2)
+        run: |
+          lotus state search-msg $( cat cids.txt | sed -n 2p ) | sed -n 's/^Gas Used: //p' >> gas.txt || true
+      - name: Get operation gas (3)
+        run: |
+          lotus state search-msg $( cat cids.txt | sed -n 3p ) | sed -n 's/^Gas Used: //p' >> gas.txt || true
+      - name: Get operation gas (4)
+        run: |
+          lotus state search-msg $( cat cids.txt | sed -n 4p ) | sed -n 's/^Gas Used: //p' >> gas.txt || true
+      - name: Show benchmark table
+        run: |
+          printf 'serializationAddSigner \t| %10s \t|\nserializationAddress \t| %10s \t|\nserialize \t\t| %10s \t|\ndeserialize \t\t| %10s \t|\n' $(cat gas.txt | sed -n 1p) $(cat gas.txt | sed -n 2p) $(cat gas.txt | sed -n 3p) $(cat gas.txt | sed -n 4p)
 
