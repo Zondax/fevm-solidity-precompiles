@@ -115,13 +115,13 @@ jobs:
           cat cids.txt
       - name: Get operation gas (1)
         run: |
-          lotus state search-msg $( cat cids.txt | sed -n 1p ) || true
+          lotus state search-msg $( cat cids.txt | sed -n 1p ) || true | sed -n 's/^Gas Used: //p'
       - name: Get operation gas (2)
         run: |
-          lotus state search-msg $( cat cids.txt | sed -n 2p ) || true
+          lotus state search-msg $( cat cids.txt | sed -n 2p ) || true | sed -n 's/^Gas Used: //p'
       - name: Get operation gas (3)
         run: |
-          lotus state search-msg $( cat cids.txt | sed -n 3p ) || true
+          lotus state search-msg $( cat cids.txt | sed -n 3p ) || true | sed -n 's/^Gas Used: //p'
       - name: Get operation gas (4)
         run: |
-          lotus state search-msg $( cat cids.txt | sed -n 4p ) || true
+          lotus state search-msg $( cat cids.txt | sed -n 4p ) || true | sed -n 's/^Gas Used: //p'
