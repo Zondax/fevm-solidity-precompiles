@@ -126,5 +126,6 @@ jobs:
         run: |
           lotus state search-msg $( cat cids.txt | sed -n 4p ) | sed -n 's/^Gas Used: //p' >> gas.txt || true
       - name: Show benchmark table
-        run: cat gas.txt
+        run: |
+          printf 'serializationAddSigner \t| %10s \t|\nserializationAddress \t| %10s \t|\nserialize \t\t| %10s \t|\ndeserialize \t\t| %10s \t|\n' $(cat gas.txt | sed -n 1p) $(cat gas.txt | sed -n 2p) $(cat gas.txt | sed -n 3p) $(cat gas.txt | sed -n 4p)
 
