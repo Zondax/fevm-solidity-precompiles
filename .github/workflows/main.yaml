@@ -115,13 +115,16 @@ jobs:
           cat cids.txt
       - name: Get operation gas (1)
         run: |
-          lotus state search-msg $( cat cids.txt | sed -n 1p ) | sed -n 's/^Gas Used: //p' || true
+          lotus state search-msg $( cat cids.txt | sed -n 1p ) | sed -n 's/^Gas Used: //p' >> gas.txt || true
       - name: Get operation gas (2)
         run: |
-          lotus state search-msg $( cat cids.txt | sed -n 2p ) | sed -n 's/^Gas Used: //p' || true
+          lotus state search-msg $( cat cids.txt | sed -n 2p ) | sed -n 's/^Gas Used: //p' >> gas.txt || true
       - name: Get operation gas (3)
         run: |
-          lotus state search-msg $( cat cids.txt | sed -n 3p ) | sed -n 's/^Gas Used: //p' || true
+          lotus state search-msg $( cat cids.txt | sed -n 3p ) | sed -n 's/^Gas Used: //p' >> gas.txt || true
       - name: Get operation gas (4)
         run: |
-          lotus state search-msg $( cat cids.txt | sed -n 4p ) | sed -n 's/^Gas Used: //p' || true
+          lotus state search-msg $( cat cids.txt | sed -n 4p ) | sed -n 's/^Gas Used: //p' >> gas.txt || true
+      - name: Show benchmark table
+        run: cat gas.txt
+
