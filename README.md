@@ -53,6 +53,19 @@ We have +19814% gas use compare to a simple send transaction when serializing ad
 |------------------------------------|----------------------|
 ```
 
+### Benchmark Selenium
+
+```
+|------------------------------------|----------------------|
+| Call                               | Gas used             |
+|------------------------------------|----------------------|
+| serializeAddSigner (CBOR contract) |  13,922,379          |
+| serializeAddress (CBOR contract)   |  11,341,547          |
+| serializeBool (CBOR contract)      |   3,719,855          |
+| getBalance (SimpleCoin contract)   |   3,356,533          |
+|------------------------------------|----------------------|
+```
+
 ### Reproducing result
 
 b10d18b8 -> serializeAddSigner(address,bool)
