@@ -3,7 +3,15 @@ title: "Benchmarks"
 sidebar_position: 4
 ---
 
-## Original benchmark (before FEVM optimization)
+This benchmark compares gas used for CBOR serialization written in solidity with other calls like a simple transfer of FIL or a ERC20 transfer call written using [AssemblyScript SDK](https://github.com/Zondax/fvm-as-sdk/) developed by Zondax.
+
+## Benchmarks
+
+The complete delivery plan can be found [here](https://github.com/filecoin-project/ref-fvm/issues/692).
+
+### Talc [:link:](https://github.com/filecoin-project/ref-fvm/issues/691)
+
+This benchmark shows the progression in the initial FEVM implementation.
 
 ```
 |------------------------------------|----------------------|
@@ -18,9 +26,8 @@ sidebar_position: 4
 |------------------------------------|----------------------|
 ```
 
-This benchmark compares gas used for CBOR serialization written in solidity with other calls like a simple transfer of FIL or a ERC20 transfer call written using (assemblyscript SDK developped by Zondax)[https://github.com/Zondax/fvm-as-sdk/].
 
-## Benchmark Selenium
+### Selenium [:link:](https://github.com/filecoin-project/ref-fvm/issues/801)
 
 This benchmark shows the progression after FEVM optimizations.
 
@@ -35,7 +42,9 @@ This benchmark shows the progression after FEVM optimizations.
 |------------------------------------|----------------------|
 ```
 
-## Benchmark Copper
+### Copper [:link:](https://github.com/filecoin-project/ref-fvm/issues/830)
+
+This benchmark shows the progression after FEVM optimizations.
 
 ```
 |------------------------------------|----------------------|
