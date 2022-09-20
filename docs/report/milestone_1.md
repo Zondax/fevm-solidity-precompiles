@@ -2,6 +2,7 @@
 title: Milestone 1
 sidebar_position: 2
 ---
+The first goal, which we have defined as Milestone 1 consisted of a feasibility analysis to evaluate if it is worth it to serialise and deserialize data in solidity.
 
 ## Deliverables
 
