@@ -129,3 +129,44 @@ jobs:
         run: |
           printf 'serializationAddSigner \t| %10s \t|\nserializationAddress \t| %10s \t|\nserialize \t\t| %10s \t|\ndeserialize \t\t| %10s \t|\n' $(cat gas.txt | sed -n 1p) $(cat gas.txt | sed -n 2p) $(cat gas.txt | sed -n 3p) $(cat gas.txt | sed -n 4p)
 
+  benchmark-cbor-local:
+    name: "Benchmark CBOR with local rust FVM"
+    needs: [build-cbor]
+    timeout-minutes: 5
+    runs-on: self-hosted
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Cache/restore binaries
+        uses: actions/cache@v1
+        with:
+          path: ./build
+          key: ${{ runner.os }}-${{ github.run_id }}-cbor
+      - name: Install latest nightly
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: nightly-2022-03-31
+          override: true
+      - name: Restore crates
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+          key: ${{ runner.os }}-cargo-${{ hashFiles('./tests/local-vm/Cargo.lock') }}
+      - name: Test WASM on Rust VM
+        run: |
+          cd testing
+          rustup target add wasm32-unknown-unknown
+          RUST_BACKTRACE=1 cargo r
+      - name: Save crates
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+          key: ${{ runner.os }}-cargo-${{ hashFiles('./tests/local-vm/Cargo.lock') }}
