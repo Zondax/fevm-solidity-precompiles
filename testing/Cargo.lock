@@ -1765,6 +1765,7 @@ dependencies = [
 [[package]]
 name = "fvm"
 version = "3.0.0-alpha.1"
+source = "git+https://github.com/rllola/ref-fvm?branch=fix/integration#b43a7e192d18f8449972e9f4b1802d24ecffb0ea"
 dependencies = [
  "anyhow",
  "blake2b_simd",
@@ -1809,6 +1810,7 @@ dependencies = [
 [[package]]
 name = "fvm_integration_tests"
 version = "0.1.0"
+source = "git+https://github.com/rllola/ref-fvm?branch=fix/integration#b43a7e192d18f8449972e9f4b1802d24ecffb0ea"
 dependencies = [
  "anyhow",
  "cid",
@@ -1836,6 +1838,7 @@ dependencies = [
 [[package]]
 name = "fvm_ipld_amt"
 version = "0.4.2"
+source = "git+https://github.com/rllola/ref-fvm?branch=fix/integration#b43a7e192d18f8449972e9f4b1802d24ecffb0ea"
 dependencies = [
  "ahash",
  "anyhow",
@@ -1864,6 +1867,7 @@ dependencies = [
 [[package]]
 name = "fvm_ipld_blockstore"
 version = "0.1.1"
+source = "git+https://github.com/rllola/ref-fvm?branch=fix/integration#b43a7e192d18f8449972e9f4b1802d24ecffb0ea"
 dependencies = [
  "anyhow",
  "cid",
@@ -1888,6 +1892,7 @@ dependencies = [
 [[package]]
 name = "fvm_ipld_car"
 version = "0.5.0"
+source = "git+https://github.com/rllola/ref-fvm?branch=fix/integration#b43a7e192d18f8449972e9f4b1802d24ecffb0ea"
 dependencies = [
  "cid",
  "futures",
@@ -1901,6 +1906,7 @@ dependencies = [
 [[package]]
 name = "fvm_ipld_encoding"
 version = "0.2.2"
+source = "git+https://github.com/rllola/ref-fvm?branch=fix/integration#b43a7e192d18f8449972e9f4b1802d24ecffb0ea"
 dependencies = [
  "anyhow",
  "cid",
@@ -1917,6 +1923,7 @@ dependencies = [
 [[package]]
 name = "fvm_ipld_hamt"
 version = "0.5.1"
+source = "git+https://github.com/rllola/ref-fvm?branch=fix/integration#b43a7e192d18f8449972e9f4b1802d24ecffb0ea"
 dependencies = [
  "anyhow",
  "byteorder",
@@ -1951,6 +1958,7 @@ dependencies = [
 [[package]]
 name = "fvm_shared"
 version = "3.0.0-alpha.2"
+source = "git+https://github.com/rllola/ref-fvm?branch=fix/integration#b43a7e192d18f8449972e9f4b1802d24ecffb0ea"
 dependencies = [
  "anyhow",
  "blake2b_simd",

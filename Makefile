@@ -18,3 +18,9 @@ install_solc_win:
 
 install_solc_mac:
 	@echo "No macOS. Only Linux."
+
+install-llvm-ci:
+	echo 'deb http://apt.llvm.org/focal/ llvm-toolchain-focal-13 main' | sudo tee /etc/apt/sources.list.d/llvm.list
+	wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
+	sudo apt-get update
+	sudo apt-get install clang-13 llvm-13-dev lld-13 libclang-13-dev
