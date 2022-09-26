@@ -3,3 +3,4 @@
 **/*.signatures
 bin/*
 !bin/.gitkeep
+target/

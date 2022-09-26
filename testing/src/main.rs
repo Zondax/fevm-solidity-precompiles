@@ -10,10 +10,13 @@ use std::env;
 use std::str::FromStr;
 use fvm_shared::message::Message;
 use fvm::executor::{ApplyKind, Executor};
-use fil_actor_init::ExecParams;
+use fil_actor_init::{ExecParams, ExecReturn};
 use cid::Cid;
 use fvm_ipld_encoding::RawBytes;
 use fil_actors_runtime::INIT_ACTOR_ADDR;
+
+#[macro_use] extern crate prettytable;
+use prettytable::Table;
 
 const WASM_COMPILED_PATH: &str =
     "../build/CborTest.bin";
@@ -79,8 +82,81 @@ fn main() {
         .execute_message(message, ApplyKind::Explicit, 100)
         .unwrap();
 
-    dbg!(&res);
-
     assert_eq!(res.msg_receipt.exit_code.value(), 0);
 
+    let exec_return : ExecReturn = RawBytes::deserialize(&res.msg_receipt.return_data).unwrap();
+
+    println!("Calling `serializeBool`");
+
+    let message = Message {
+        from: sender[0].1,
+        to: exec_return.id_address,
+        gas_limit: 1000000000,
+        method_num: 2,
+        sequence: 1,
+        params: RawBytes::new(hex::decode("009c81520000000000000000000000000000000000000000000000000000000000000001").unwrap()),
+        ..Message::default()
+    };
+
+    let res_serialize_bool = executor
+        .execute_message(message, ApplyKind::Explicit, 100)
+        .unwrap();
+
+    dbg!(&res_serialize_bool);
+
+    assert_eq!(res_serialize_bool.msg_receipt.exit_code.value(), 0);
+
+    println!("Calling `serializeAddress`");
+
+    let message = Message {
+        from: sender[0].1,
+        to: exec_return.id_address,
+        gas_limit: 1000000000,
+        method_num: 2,
+        sequence: 2,
+        params: RawBytes::new(hex::decode("241d23b20000000000000000000000000000000000000000000000000000000000000064").unwrap()),
+        ..Message::default()
+    };
+
+    let res_serialize_address = executor
+        .execute_message(message, ApplyKind::Explicit, 100)
+        .unwrap();
+
+    dbg!(&res_serialize_address);
+
+    assert_eq!(res_serialize_address.msg_receipt.exit_code.value(), 0);
+
+    println!("Calling `serializeAddSigner`");
+
+    let message = Message {
+        from: sender[0].1,
+        to: exec_return.id_address,
+        gas_limit: 1000000000,
+        method_num: 2,
+        sequence: 3,
+        params: RawBytes::new(hex::decode("b10d18b800000000000000000000000000000000000000000000000000000000000000640000000000000000000000000000000000000000000000000000000000000001").unwrap()),
+        ..Message::default()
+    };
+
+    let res_serialize_add_signer = executor
+        .execute_message(message, ApplyKind::Explicit, 100)
+        .unwrap();
+
+    dbg!(&res_serialize_add_signer);
+
+    assert_eq!(res_serialize_add_signer.msg_receipt.exit_code.value(), 0);
+
+    let mut table = Table::new();
+    table.add_row(row!["FUNCTIONS", "GAS USED"]);
+    table.add_row(row!["serializeBool",
+        format!("{}", res_serialize_bool.msg_receipt.gas_used),
+    ]);
+    table.add_row(row!["serializeAddress",
+        format!("{}", res_serialize_address.msg_receipt.gas_used),
+    ]);
+    table.add_row(row!["serializeAddSigner",
+        format!("{}", res_serialize_add_signer.msg_receipt.gas_used),
+    ]);
+
+    table.printstd();
 }
