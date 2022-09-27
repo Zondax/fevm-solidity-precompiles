@@ -102,8 +102,6 @@ fn main() {
         .execute_message(message, ApplyKind::Explicit, 100)
         .unwrap();
 
-    dbg!(&res_serialize_bool);
-
     assert_eq!(res_serialize_bool.msg_receipt.exit_code.value(), 0);
 
     println!("Calling `serializeAddress`");
@@ -122,8 +120,6 @@ fn main() {
         .execute_message(message, ApplyKind::Explicit, 100)
         .unwrap();
 
-    dbg!(&res_serialize_address);
-
     assert_eq!(res_serialize_address.msg_receipt.exit_code.value(), 0);
 
     println!("Calling `serializeAddSigner`");
@@ -141,8 +137,6 @@ fn main() {
     let res_serialize_add_signer = executor
         .execute_message(message, ApplyKind::Explicit, 100)
         .unwrap();
-
-    dbg!(&res_serialize_add_signer);
 
     assert_eq!(res_serialize_add_signer.msg_receipt.exit_code.value(), 0);
 
