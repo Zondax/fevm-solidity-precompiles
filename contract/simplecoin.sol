@@ -29,3 +29,4 @@ contract SimpleCoin {
                 return balances[addr];
         }
 }
+
