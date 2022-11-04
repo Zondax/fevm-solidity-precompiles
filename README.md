@@ -1,6 +1,8 @@
 # FEVM Precompiles
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![GithubActions](https://github.com/Zondax/fevm-precompiles/actions/workflows/main.yaml/badge.svg)](https://github.com/Zondax/fevm-precompiles/blob/master/.github/workflows/main.yaml)
+[![GithubActions](https://github.com/Zondax/fevm-solidity-precompiles/actions/workflows/m1.main.yaml/badge.svg)](https://github.com/Zondax/fevm-solidity-precompiles/blob/main/.github/workflows/m1.main.yaml)
+[![GithubActions](https://github.com/Zondax/fevm-solidity-precompiles/actions/workflows/m1.analysis.yaml/badge.svg)](https://github.com/Zondax/fevm-solidity-precompiles/blob/main/.github/workflows/m1.analysis.yaml)
+[![GithubActions](https://github.com/Zondax/fevm-solidity-precompiles/actions/workflows/m2.main.yaml/badge.svg)](https://github.com/Zondax/fevm-solidity-precompiles/blob/main/.github/workflows/m2.main.yaml)
 
 ---
 
@@ -132,7 +134,5 @@ You then can do the same for all the function in `build/CborTest.signatures`.
 
 ## Abstract
 
-This PoC attempt to use Ethereum precompiles concept to serialize/deserialize CBOR data so Filecoin actors can consume them. The objectif is to write precompile functions then to benchmark the gas consumption.
-
-## How to
+This PoC attempt to use Ethereum precompiles concept to serialize/deserialize CBOR data so Filecoin actors can consume them. The objective is to write precompile functions then to benchmark the gas consumption.
 
