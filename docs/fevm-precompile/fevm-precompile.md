@@ -15,9 +15,9 @@ In the context of the FVM Early Builder program (Solidity edition), we proposee 
 
 ### Milestone 1: CBOR Serialization on Solidity
 
-The first goal, which we have defined as Milestone 1 consisted of a feasibility analysis to evaluate if it is worth it to serialise and deserialize data in solidity in terms of gas usage.
-
+The first goal consisted of a feasibility analysis to evaluate if it is worth it to serialise and deserialize data in solidity.
 
 ### Milestone 2: CBOR Serialization on Precompiles
 
-We analysis a different approach which consisted in using precompiled contracts to serialize and deserialize data in solidity.
+In this case, we analyse a different approach which consisted in using precompiled contracts to serialize and deserialize data in solidity.
+

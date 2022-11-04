@@ -81,3 +81,5 @@ This benchmark compares gas used for CBOR serialization using precompiled contra
 | Simple send (native)               |     413,868          |
 |------------------------------------|----------------------|
 ```
+
+When serializing in a precompiled contract we are using less gas than when serializing inside a Solidity contract. However, the gas usage is still significant. Memory usage when going from the Solidity contract to the FEVM seems to be the issue here.
