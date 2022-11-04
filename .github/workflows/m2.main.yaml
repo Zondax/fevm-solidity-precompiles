@@ -5,7 +5,7 @@ on:
 jobs:
   analysis:
     name: "Gas usage analysis"
-    timeout-minutes: 10
+    timeout-minutes: 20
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
