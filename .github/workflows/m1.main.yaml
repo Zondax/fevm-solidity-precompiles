@@ -1,0 +1,182 @@
+name: "M1: Checks contract"
+on:
+  - push
+
+jobs:
+  build-example:
+    name: "Build example"
+    timeout-minutes: 20
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Install dependencies
+        run: |
+          cd m1
+          wget https://binaries.soliditylang.org/linux-amd64/solc-linux-amd64-v0.8.15+commit.e14f2714
+          mv solc-linux-amd64-v0.8.15+commit.e14f2714 solc
+          chmod +x solc
+      - name: Compile contract file
+        run: |
+          cd m1
+          ./solc contract/simplecoin.sol --output-dir ./build --overwrite --bin
+          mv build/SimpleCoin.bin build/simplecoin_hex.bin
+          xxd -r -p build/simplecoin_hex.bin build/simplecoin.bin
+      - name: Cache/restore binaries
+        uses: actions/cache@v1
+        with:
+          path: ./m1/build
+          key: ${{ runner.os }}-${{ github.run_id }}-example
+
+  test-example-terminal:
+    name: "Test example with Lotus Terminal"
+    needs: [build-example]
+    timeout-minutes: 5
+    runs-on: self-hosted
+    steps:
+      - name: Cache/restore binaries
+        uses: actions/cache@v1
+        with:
+          path: ./m1/build
+          key: ${{ runner.os }}-${{ github.run_id }}-example
+      - name: Create Actor in Lotus
+        run: |
+          cd m1
+          rm -f create.txt
+          lotus version
+          lotus chain create-evm-actor ./build/simplecoin.bin >> create.txt
+          cat create.txt
+      - name: Invoke actor's method
+        run: |
+          cd m1
+          address=$(sed -n 's/^ID Address: //p' create.txt)
+          echo $address
+          lotus chain invoke-evm-actor $address f8b2cb4f 0000000000000000000000000000000000000000000000000000000000000064
+          lotus chain invoke-evm-actor $address f8b2cb4f 0000000000000000000000000000000000000000000000000000000000000065
+
+  build-cbor:
+    name: "Build CBOR"
+    timeout-minutes: 20
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Install dependencies
+        run: |
+          cd m1
+          wget https://binaries.soliditylang.org/linux-amd64/solc-linux-amd64-v0.8.15+commit.e14f2714
+          mv solc-linux-amd64-v0.8.15+commit.e14f2714 solc
+          chmod +x solc
+      - name: Compile contract file
+        run: |
+          cd m1
+          ./solc contract/cbor_test.sol --output-dir ./build --overwrite --bin
+          mv build/CborTest.bin build/cbor_test_hex.bin
+          xxd -r -p build/cbor_test_hex.bin build/cbor_test.bin
+      - name: Cache/restore binaries
+        uses: actions/cache@v1
+        with:
+          path: ./m1/build
+          key: ${{ runner.os }}-${{ github.run_id }}-cbor
+
+  test-cbor-terminal:
+    name: "Test CBOR with Lotus Terminal"
+    needs: [build-cbor]
+    timeout-minutes: 5
+    runs-on: self-hosted
+    outputs:
+      address: ${{ steps.invoke.outputs.address }}
+    steps:
+      - name: Cache/restore binaries
+        uses: actions/cache@v1
+        with:
+          path: ./m1/build
+          key: ${{ runner.os }}-${{ github.run_id }}-cbor
+      - name: Create Actor in Lotus
+        run: |
+          cd m1
+          rm -f create.txt
+          lotus version
+          lotus chain create-evm-actor ./build/cbor_test.bin >> create.txt
+          cat create.txt
+      - name: Invoke actor's method
+        id: invoke
+        run: |
+          cd m1
+          address=$(sed -n 's/^ID Address: //p' create.txt)
+          echo $address
+          echo "::set-output name=address::$address"
+          lotus chain invoke-evm-actor $address b5cc88f3 
+          lotus chain invoke-evm-actor $address bc8018b1
+          lotus chain invoke-evm-actor $address 241d23b2 0000000000000000000000000000000000000000000000000000000000000064
+          lotus chain invoke-evm-actor $address b10d18b8 00000000000000000000000000000000000000000000000000000000000000640000000000000000000000000000000000000000000000000000000000000001
+
+  benchmark-cbor:
+    name: "Benchmark CBOR with Lotus Terminal"
+    needs: [test-cbor-terminal]
+    timeout-minutes: 5
+    runs-on: self-hosted
+    steps:
+      - name: Collect CIDs
+        run: |
+          lotus state list-messages --to ${{ needs.test-cbor-terminal.outputs.address }} | jq -r ".CID | .[]" > cids.txt
+          cat cids.txt
+      - name: Get operation gas (1)
+        run: |
+          lotus state search-msg $( cat cids.txt | sed -n 1p ) | sed -n 's/^Gas Used: //p' >> gas.txt || true
+      - name: Get operation gas (2)
+        run: |
+          lotus state search-msg $( cat cids.txt | sed -n 2p ) | sed -n 's/^Gas Used: //p' >> gas.txt || true
+      - name: Get operation gas (3)
+        run: |
+          lotus state search-msg $( cat cids.txt | sed -n 3p ) | sed -n 's/^Gas Used: //p' >> gas.txt || true
+      - name: Get operation gas (4)
+        run: |
+          lotus state search-msg $( cat cids.txt | sed -n 4p ) | sed -n 's/^Gas Used: //p' >> gas.txt || true
+      - name: Show benchmark table
+        run: |
+          printf 'serializationAddSigner \t| %10s \t|\nserializationAddress \t| %10s \t|\nserialize \t\t| %10s \t|\ndeserialize \t\t| %10s \t|\n' $(cat gas.txt | sed -n 1p) $(cat gas.txt | sed -n 2p) $(cat gas.txt | sed -n 3p) $(cat gas.txt | sed -n 4p)
+
+  # benchmark-cbor-local:
+  #   name: "Benchmark CBOR with local rust FVM"
+  #   needs: [build-cbor]
+  #   timeout-minutes: 5
+  #   runs-on: self-hosted
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v2
+  #     - name: Cache/restore binaries
+  #       uses: actions/cache@v1
+  #       with:
+  #         path: ./build
+  #         key: ${{ runner.os }}-${{ github.run_id }}-cbor
+  #     - name: Install latest nightly
+  #       uses: actions-rs/toolchain@v1
+  #       with:
+  #         toolchain: nightly-2022-03-31
+  #         override: true
+  #     - name: Restore crates
+  #       uses: actions/cache@v3
+  #       with:
+  #         path: |
+  #           ~/.cargo/bin/
+  #           ~/.cargo/registry/index/
+  #           ~/.cargo/registry/cache/
+  #           ~/.cargo/git/db/
+  #         key: ${{ runner.os }}-cargo-${{ hashFiles('./tests/local-vm/Cargo.lock') }}
+  #     - name: Test WASM on Rust VM
+  #       run: |
+  #         apt install build-essential
+  #         make install-llvm-ci
+  #         cd testing
+  #         rustup target add wasm32-unknown-unknown
+  #         RUST_BACKTRACE=1 cargo r
+  #     - name: Save crates
+  #       uses: actions/cache@v3
+  #       with:
+  #         path: |
+  #           ~/.cargo/bin/
+  #           ~/.cargo/registry/index/
+  #           ~/.cargo/registry/cache/
+  #           ~/.cargo/git/db/
+  #         key: ${{ runner.os }}-cargo-${{ hashFiles('./tests/local-vm/Cargo.lock') }}
