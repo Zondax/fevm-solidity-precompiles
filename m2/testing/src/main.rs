@@ -153,7 +153,29 @@ fn main() {
         .execute_message(message, ApplyKind::Explicit, 100)
         .unwrap();
 
+    dbg!(&res_cbor_address);
+
     assert_eq!(res_cbor_address.msg_receipt.exit_code.value(), 0);
+
+    println!("Calling `cborAddSigner`");
+
+    let message = Message {
+        from: sender[0].1,
+        to: Address::new_id(exec_return.actor_id),
+        gas_limit: 1000000000,
+        method_num: 2,
+        sequence: 5,
+        params: RawBytes::new(hex::decode("440ab6d00b").unwrap()),
+        ..Message::default()
+    };
+
+    let res_add_signer = executor
+        .execute_message(message, ApplyKind::Explicit, 100)
+        .unwrap();
+
+    dbg!(&res_add_signer);
+
+    assert_eq!(res_add_signer.msg_receipt.exit_code.value(), 0);
 
     let mut table = Table::new();
     table.add_row(row!["FUNCTIONS", "GAS USED"]);

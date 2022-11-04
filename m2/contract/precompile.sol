@@ -54,9 +54,27 @@ contract Precompile {
             let buf := mload(0x40)
             mstore(buf, a)
             
-            // we offset by 12 + 1 to remove the `ff`
-            pop(staticcall(100000000, 0x0c, add(buf, 0x0d), 0x20, result, 0x20))
+            if iszero(staticcall(100000000, 0x0c, buf, 0x20, result, 0x20)) {
+                revert(0,0)
+            }
         }
         return result[0];
+    }
+
+    function cborAddSigner() public returns (bytes memory) {
+        address a = msg.sender;
+        bool b = true;
+        bytes memory result = new bytes(0x20);
+        assembly {
+            let buf := mload(0x40)
+            mstore(buf, a)
+            mstore(add(buf, 0x20), b)
+            //mstore(buf, b)
+
+            if iszero(staticcall(100000000, 0x0d, buf, 0x40, add(result, 0x20), 0x20)) {
+                revert(0,0)
+            }
+        }
+        return result;
     }
 }
