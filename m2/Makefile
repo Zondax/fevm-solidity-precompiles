@@ -4,6 +4,10 @@ build_precompile:
 	./bin/solc contract/precompile.sol --output-dir ./build --overwrite --bin --hashes --opcodes
 	xxd -r -p build/Precompile.bin build/Precompile.bin
 
+test:
+	cd testing
+	cargo r
+
 install_solc_linux:
 	wget https://binaries.soliditylang.org/linux-amd64/solc-linux-amd64-v0.8.15+commit.e14f2714
 	mv solc-linux-amd64-v0.8.15+commit.e14f2714 bin/solc
@@ -13,7 +17,9 @@ install_solc_win:
 	@echo "No Windows. Only Linux."
 
 install_solc_mac:
-	@echo "No macOS. Only Linux."
+	wget https://github.com/ethereum/solidity/releases/download/v0.8.1/solc-macos
+	mv solc-macos bin/solc
+	chmod +x bin/solc
 
 install-llvm-ci:
 	echo 'deb http://apt.llvm.org/focal/ llvm-toolchain-focal-13 main' | sudo tee /etc/apt/sources.list.d/llvm.list
