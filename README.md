@@ -134,7 +134,5 @@ You then can do the same for all the function in `build/CborTest.signatures`.
 
 ## Abstract
 
-This PoC attempt to use Ethereum precompiles concept to serialize/deserialize CBOR data so Filecoin actors can consume them. The objectif is to write precompile functions then to benchmark the gas consumption.
-
-## How to
+This PoC attempt to use Ethereum precompiles concept to serialize/deserialize CBOR data so Filecoin actors can consume them. The objective is to write precompile functions then to benchmark the gas consumption.
 
