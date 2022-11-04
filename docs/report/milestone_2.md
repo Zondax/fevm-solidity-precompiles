@@ -10,20 +10,20 @@ This FEVM Precompiles Proof of Concept includes the following features - [Let's 
 ### Technical
 | Type                         | Category | Description | Link                                                                                                 |
 |------------------------------|----------|-------------|------------------------------------------------------------------------------------------------------|
-| Precompile contract          | Code     |             | [:link:](https://github.com/Zondax/fevm-solidity-precompiles/blob/master/m2/contract/precompile.sol) |
+| Precompile contract          | Code     |             | [:link:](https://github.com/Zondax/fevm-solidity-precompiles/blob/main/m2/contract/precompile.sol) |
 
 
 ### Documentation 
 
 | Category      | Description                      | Link                                                                                                                                                                  |
 |---------------|----------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
- | Introduction  | What is the Filecoin blockchain? | [:link:](https://github.com/Zondax/fevm-solidity-precompiles/blob/master/docs/fevm-solidity-precompiles/introduction/introduction.md#what-is-the-filecoin-blockchain) |
- | Introduction  | What is the FVM?                 | [:link:](https://github.com/Zondax/fevm-solidity-precompiles/blob/master/docs/fevm-solidity-precompiles/introduction/introduction.md#what-is-the-fvm)                 |
- | Introduction  | What is the FEVM?                | [:link:](https://github.com/Zondax/fevm-solidity-precompiles/blob/master/docs/fevm-solidity-precompiles/introduction/introduction.md#what-is-the-fevm)                |
- | Introduction  | What is Solilidty?               | [:link:](https://github.com/Zondax/fevm-solidity-precompiles/blob/master/docs/fevm-solidity-precompiles/introduction/tech-involved.md#what-is-solidity)               |
- | Introduction  | What is CBOR?                    | [:link:](https://github.com/Zondax/fevm-solidity-precompiles/blob/master/docs/fevm-solidity-precompiles/introduction/tech-involved.md#what-is-cbor)                   |
- | Introduction  | What is the project about?       | [:link:](https://github.com/Zondax/fevm-solidity-precompiles/blob/master/docs/fevm-solidity-precompiles/fevm-cbor-poc.md)                                             |
- | Structure     | Contracts                        | [:link:](https://github.com/Zondax/fevm-solidity-precompiles/blob/master/docs/fevm-solidity-precompiles/structure#contracts.md)                                       |
- | Structure     | Other folders                    | [:link:](https://github.com/Zondax/fevm-solidity-precompiles/blob/master/docs/fevm-solidity-precompiles/structure#other-folders.md)                                   |
- | Benchmarks    | Benchmark                        | [:link:](https://github.com/Zondax/fevm-solidity-precompiles/blob/master/docs/fevm-solidity-precompiles/benchmark.md#talc)                                            |                                       |
- | Conclusions   | Small analysis                   | [:link:](https://github.com/Zondax/fevm-solidity-precompiles/blob/master/docs/fevm-solidity-precompiles/conclusions.md)                                               |
+ | Introduction  | What is the Filecoin blockchain? | [:link:](https://github.com/Zondax/fevm-solidity-precompiles/blob/main/docs/fevm-solidity-precompiles/introduction/introduction.md#what-is-the-filecoin-blockchain) |
+ | Introduction  | What is the FVM?                 | [:link:](https://github.com/Zondax/fevm-solidity-precompiles/blob/main/docs/fevm-solidity-precompiles/introduction/introduction.md#what-is-the-fvm)                 |
+ | Introduction  | What is the FEVM?                | [:link:](https://github.com/Zondax/fevm-solidity-precompiles/blob/main/docs/fevm-solidity-precompiles/introduction/introduction.md#what-is-the-fevm)                |
+ | Introduction  | What is Solilidty?               | [:link:](https://github.com/Zondax/fevm-solidity-precompiles/blob/main/docs/fevm-solidity-precompiles/introduction/tech-involved.md#what-is-solidity)               |
+ | Introduction  | What is CBOR?                    | [:link:](https://github.com/Zondax/fevm-solidity-precompiles/blob/main/docs/fevm-solidity-precompiles/introduction/tech-involved.md#what-is-cbor)                   |
+ | Introduction  | What is the project about?       | [:link:](https://github.com/Zondax/fevm-solidity-precompiles/blob/main/docs/fevm-solidity-precompiles/fevm-cbor-poc.md)                                             |
+ | Structure     | Contracts                        | [:link:](https://github.com/Zondax/fevm-solidity-precompiles/blob/main/docs/fevm-solidity-precompiles/structure#contracts.md)                                       |
+ | Structure     | Other folders                    | [:link:](https://github.com/Zondax/fevm-solidity-precompiles/blob/main/docs/fevm-solidity-precompiles/structure#other-folders.md)                                   |
+ | Benchmarks    | Benchmark                        | [:link:](https://github.com/Zondax/fevm-solidity-precompiles/blob/main/docs/fevm-solidity-precompiles/benchmark.md#talc)                                            |                                       |
+ | Conclusions   | Small analysis                   | [:link:](https://github.com/Zondax/fevm-solidity-precompiles/blob/main/docs/fevm-solidity-precompiles/conclusions.md)                                               |
