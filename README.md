@@ -1,6 +1,7 @@
 # FEVM Precompiles
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![GithubActions](https://github.com/Zondax/fevm-precompiles/actions/workflows/main.yaml/badge.svg)](https://github.com/Zondax/fevm-precompiles/blob/master/.github/workflows/main.yaml)
+[![GithubActions](https://github.com/Zondax/fevm-solidity-precompiles/actions/workflows/m1.main.yaml/badge.svg)](https://github.com/Zondax/fevm-solidity-precompiles/blob/main/.github/workflows/m1.main.yaml)
+[![GithubActions](https://github.com/Zondax/fevm-solidity-precompiles/actions/workflows/m2.main.yaml/badge.svg)](https://github.com/Zondax/fevm-solidity-precompiles/blob/main/.github/workflows/m2.main.yaml)
 
 ---
 
