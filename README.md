@@ -17,9 +17,9 @@ _Please visit our website at [zondax.ch](https://www.zondax.ch)_
 
 In the context of the FVM Early Builder program (Solidity edition), we proposee to build a set of tools and libraries to enable Ethereum developers to re-use their existing know-how to develop Filecoin-specific use cases.
 
-### CBOR on Solidity [:link:](./m1/README.md)
+### M1: CBOR on Solidity [:link:](./m1/README.md)
 
-### CBOR on Precompiles [:link:](./m2/README.md)
+### M2: CBOR on Precompiles [:link:](./m2/README.md)
 
 ## Docs
 
