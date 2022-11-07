@@ -4,8 +4,8 @@
 
 ---
 
-![zondax_light](docs/assets/zondax_light.png#gh-light-mode-only)
-![zondax_dark](docs/assets/zondax_dark.png#gh-dark-mode-only)
+![zondax_light](../docs/assets/zondax_light.png#gh-light-mode-only)
+![zondax_dark](../docs/assets/zondax_dark.png#gh-dark-mode-only)
 
 _Please visit our website at [zondax.ch](https://www.zondax.ch)_
 
@@ -16,6 +16,6 @@ _Please visit our website at [zondax.ch](https://www.zondax.ch)_
 This PoC attempt to use Ethereum precompiles concept to serialize/deserialize CBOR data so Filecoin actors can consume them. The objective is to write precompile functions then to benchmark the gas consumption.
 
 
-## Docs :books::books:
+## Docs :books: :books:
 
 Please, visit our website to learn more about this project [:link:](https://docs.zondax.ch)

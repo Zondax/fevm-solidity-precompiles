@@ -5,8 +5,8 @@
 
 ---
 
-![zondax_light](docs/assets/zondax_light.png#gh-light-mode-only)
-![zondax_dark](docs/assets/zondax_dark.png#gh-dark-mode-only)
+![zondax_light](../docs/assets/zondax_light.png#gh-light-mode-only)
+![zondax_dark](../docs/assets/zondax_dark.png#gh-dark-mode-only)
 
 _Please visit our website at [zondax.ch](https://www.zondax.ch)_
 
@@ -16,6 +16,6 @@ _Please visit our website at [zondax.ch](https://www.zondax.ch)_
 
 The first goal consisted of a feasibility analysis to evaluate if it is worth it to serialise and deserialize data in solidity.
 
-## Docs :books::books:
+## Docs :books: :books:
 
 Please, visit our website to learn more about this project [:link:](https://docs.zondax.ch)
