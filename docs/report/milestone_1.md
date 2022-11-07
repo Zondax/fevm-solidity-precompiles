@@ -6,7 +6,7 @@ The first goal, which we have defined as Milestone 1 consisted of a feasibility 
 
 ## Deliverables
 
-This FEVM CBOR Proof of Concept includes the following features - [Let's go to the project](https://github.com/Zondax/fevm-solidity-precompiles/m1) :arrow_upper_right:
+This FEVM CBOR Proof of Concept includes the following features - [Let's go to the project](https://github.com/Zondax/fevm-solidity-precompiles/tree/main/m1) :arrow_upper_right:
 
 ### Technical
 | Type                                      | Category   | Description          | Link                                                                                                  |

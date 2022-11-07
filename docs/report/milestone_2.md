@@ -5,7 +5,7 @@ sidebar_position: 3
 
 ## Deliverables
 
-This FEVM Precompiles Proof of Concept includes the following features - [Let's go to the project](https://github.com/Zondax/fevm-solidity-precompiles/m2) :arrow_upper_right:
+This FEVM Precompiles Proof of Concept includes the following features - [Let's go to the project](https://github.com/Zondax/fevm-solidity-precompiles/tree/main/m2) :arrow_upper_right:
 
 ### Technical
 | Type                         | Category | Description | Link                                                                                                 |
@@ -22,7 +22,7 @@ This FEVM Precompiles Proof of Concept includes the following features - [Let's 
  | Introduction  | What is the FEVM?                | [:link:](https://github.com/Zondax/fevm-solidity-precompiles/blob/main/docs/fevm-solidity-precompiles/introduction/introduction.md#what-is-the-fevm)                |
  | Introduction  | What is Solilidty?               | [:link:](https://github.com/Zondax/fevm-solidity-precompiles/blob/main/docs/fevm-solidity-precompiles/introduction/tech-involved.md#what-is-solidity)               |
  | Introduction  | What is CBOR?                    | [:link:](https://github.com/Zondax/fevm-solidity-precompiles/blob/main/docs/fevm-solidity-precompiles/introduction/tech-involved.md#what-is-cbor)                   |
- | Introduction  | What is the project about?       | [:link:](https://github.com/Zondax/fevm-solidity-precompiles/blob/main/docs/fevm-solidity-precompiles/fevm-cbor-poc.md)                                             |
+ | Introduction  | What is the project about?       | [:link:](https://github.com/Zondax/fevm-solidity-precompiles/blob/main/docs/fevm-solidity-precompiles/fevm-solidity-precompiles.md)                                             |
  | Structure     | Contracts                        | [:link:](https://github.com/Zondax/fevm-solidity-precompiles/blob/main/docs/fevm-solidity-precompiles/structure#contracts.md)                                       |
  | Structure     | Other folders                    | [:link:](https://github.com/Zondax/fevm-solidity-precompiles/blob/main/docs/fevm-solidity-precompiles/structure#other-folders.md)                                   |
  | Benchmarks    | Benchmark                        | [:link:](https://github.com/Zondax/fevm-solidity-precompiles/blob/main/docs/fevm-solidity-precompiles/benchmark.md#talc)                                            |                                       |
