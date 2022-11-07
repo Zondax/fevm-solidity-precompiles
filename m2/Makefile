@@ -17,7 +17,7 @@ install_solc_win:
 	@echo "No Windows. Only Linux."
 
 install_solc_mac:
-	wget https://github.com/ethereum/solidity/releases/download/v0.8.1/solc-macos
+	wget https://github.com/ethereum/solidity/releases/download/v0.8.15/solc-macos
 	mv solc-macos bin/solc
 	chmod +x bin/solc
 
@@ -26,3 +26,6 @@ install-llvm-ci:
 	wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
 	sudo apt-get update
 	sudo apt-get install clang-13 llvm-13-dev lld-13 libclang-13-dev
+
+test:
+	cd testing && cargo r
