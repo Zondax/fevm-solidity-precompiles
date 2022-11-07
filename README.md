@@ -21,7 +21,7 @@ In the context of the FVM Early Builder program (Solidity edition), we proposee 
 
 ### M2: CBOR on Precompiles [:link:](./m2/README.md)
 
-## Docs
+## Docs :books: :books:
 
 Please, visit our website to learn more about this project [:link:](https://docs.zondax.ch)
 
