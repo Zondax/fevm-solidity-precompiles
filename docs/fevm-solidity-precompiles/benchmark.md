@@ -67,19 +67,20 @@ This benchmark compares gas used for CBOR serialization using precompiled contra
 ## Benchmarks
 
 ```
-|------------------------------------|----------------------|
-| Call                               | Gas used             |
-|------------------------------------|----------------------|
-| serializeAddSigner (CBOR contract) |  14,602,887          |
-| serializeAddress (CBOR contract)   |  11,930,295          |
-| serializeBool (CBOR contract)      |   4,042,787          |
-| test (precompiled contract)        |   2,474,315          |
-| sha256 (precompiled contract)      |   2,171,066          |
-| cborBoolean (precompiled contract) |   2,507,039          |
-| cborAddress (precompiled contract) |   2,059,723          |
-| ERC20 send (assemblyscript native) |     697,452          |
-| Simple send (native)               |     413,868          |
-|------------------------------------|----------------------|
+|--------------------------------------|----------------------|
+| Call                                 | Gas used             |
+|--------------------------------------|----------------------|
+| serializeAddSigner (CBOR contract)   |  14,602,887          |
+| serializeAddress (CBOR contract)     |  11,930,295          |
+| serializeBool (CBOR contract)        |   4,042,787          |
+| test (precompiled contract)          |   2,474,315          |
+| sha256 (precompiled contract)        |   2,171,066          |
+| cborBoolean (precompiled contract)   |   2,507,039          |
+| cborAddress (precompiled contract)   |   2,059,723          |
+| cborAddSigner (precompiled contract) |   2,670,929          |
+| ERC20 send (assemblyscript native)   |     697,452          |
+| Simple send (native)                 |     413,868          |
+|--------------------------------------|----------------------|
 ```
 
-When serializing in a precompiled contract we are using less gas than when serializing inside a Solidity contract. However, the gas usage is still significant. Memory usage when going from the Solidity contract to the FEVM seems to be the issue here.
+When serializing in a precompiled contract we are using less gas than when serializing inside a Solidity contract. However, the gas usage is still significant. The use of the opcode `STATICCALL` seems to cost the most and the rest seem to be memory.
