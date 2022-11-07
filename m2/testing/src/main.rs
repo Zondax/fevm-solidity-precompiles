@@ -11,9 +11,8 @@ use std::str::FromStr;
 use fvm_shared::message::Message;
 use fvm::executor::{ApplyKind, Executor};
 use fil_actor_eam::Return;
-use cid::Cid;
 use fvm_ipld_encoding::RawBytes;
-use fil_actors_runtime::{INIT_ACTOR_ADDR, EAM_ACTOR_ADDR};
+use fil_actors_runtime::{EAM_ACTOR_ADDR};
 
 #[macro_use] extern crate prettytable;
 use prettytable::Table;
@@ -48,10 +47,10 @@ fn main() {
     let sender: [Account; 1] = tester.create_accounts().unwrap();
 
     let wasm_path = env::current_dir()
-    .unwrap()
-    .join(WASM_COMPILED_PATH)
-    .canonicalize()
-    .unwrap();
+        .unwrap()
+        .join(WASM_COMPILED_PATH)
+        .canonicalize()
+        .unwrap();
     let evm_bin = std::fs::read(wasm_path).expect("Unable to read file");
 
     let constructor_params = Create2Params {
@@ -173,8 +172,6 @@ fn main() {
         .execute_message(message, ApplyKind::Explicit, 100)
         .unwrap();
 
-    dbg!(&res_add_signer);
-
     assert_eq!(res_add_signer.msg_receipt.exit_code.value(), 0);
 
     let mut table = Table::new();
@@ -190,6 +187,9 @@ fn main() {
     ]);
     table.add_row(row!["cborAddress",
         format!("{}", res_cbor_address.msg_receipt.gas_used),
+    ]);
+    table.add_row(row!["cborAddSigner",
+        format!("{}", res_add_signer.msg_receipt.gas_used),
     ]);
 
     table.printstd();
