@@ -46,6 +46,19 @@ This benchmark shows the progression after FEVM optimizations.
 
 ### Copper [:link:](https://github.com/filecoin-project/ref-fvm/issues/830)
 
+This benchmark shows the progression after FEVM optimizations.
+
+```
+|------------------------------------|----------------------|
+| Call                               | Gas used             |
+|------------------------------------|----------------------|
+| serializeAddSigner (CBOR contract) |  14,602,887          |
+| serializeAddress (CBOR contract)   |  11,930,295          |
+| serializeBool (CBOR contract)      |   4,042,787          |
+| getBalance (SimpleCoin contract)   |   3,665,937          |
+|------------------------------------|----------------------|
+```
+
 ## Milestone 2
 
 This benchmark shows the progression after FEVM optimizations.
