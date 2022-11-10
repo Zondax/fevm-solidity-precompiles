@@ -39,6 +39,104 @@ library CommonTypes{
         StackedDRG64GiBV1,
         Invalid
     }
+    enum ExtensionKind {
+        ExtendCommittmentLegacy,
+        ExtendCommittment
+    }
+
+    // FIXME this is actually an int64 on rust
+    enum SectorSize {
+        _2KiB,
+        _8MiB,
+        _512MiB,
+        _32GiB,
+        _64GiB
+    }
+
+    struct ValidatedExpirationExtension {
+        uint64 deadline;
+        uint64 partition;
+        uint8 sectors;
+        int64 new_expiration;
+    }
+
+    struct ExtendExpirationsInner {
+        ValidatedExpirationExtension[] extensions;
+        bytes claims; // FIXME this is a BTreeMap<SectorNumber, (u64, u64)> on rust
+    }
+
+    struct PendingBeneficiaryChange {
+        Addr new_beneficiary;
+        int256 new_quota;
+        uint64 new_expiration;
+        bool approved_by_beneficiary;
+        bool approved_by_nominee;
+    }
+
+    struct BeneficiaryTerm {
+        int256 quota;
+        int256 used_quota;
+        uint64 expiration;
+    }
+
+    struct ActiveBeneficiary {
+        Addr beneficiary;
+        BeneficiaryTerm term;
+    }
+
+    struct RecoveryDeclaration {
+        uint64 deadline;
+        uint64 partition;
+        uint8 sectors;
+    }
+
+    struct FaultDeclaration {
+        uint64 deadline;
+        uint64 partition;
+        uint8 sectors;
+    }
+
+    struct TerminationDeclaration {
+        uint64 deadline;
+        uint64 partition;
+        uint8 sectors;
+    }
+
+    struct SectorClaim {
+        uint64 sector_number;
+        uint64[] maintain_claims;
+        uint64[] drop_claims;
+    }
+
+    struct ExpirationExtension2 {
+        uint64 deadline;
+        uint64 partition;
+        uint8 sectors;
+        SectorClaim[] sectors_with_claims;
+        int64 new_expiration;
+    }
+
+    struct ExpirationExtension {
+        uint64 deadline;
+        uint64 partition;
+        uint8 sectors;
+        int64 new_expiration;
+    }
+
+    struct FilterEstimate {
+        int256 position;
+        int256 velocity;
+    }
+
+    struct SectorPreCommitInfoInner {
+        RegisteredSealProof seal_proof;
+        uint64 sector_number;
+        CID sealed_cid;
+        int64 seal_rand_epoch;
+        uint64[] deal_ids;
+        int64 expiration;
+        CID unsealed_cid;
+    }
 
     struct SectorPreCommitInfo {
         RegisteredSealProof seal_proof;
@@ -161,8 +259,6 @@ library CommonTypes{
 
 
 library MarketTypes{
-
-    // Params and return for methods
     struct AddBalanceParams {
         CommonTypes.Addr provider_or_client;
     }
@@ -287,7 +383,7 @@ library MinerTypes{
         bool is_controlling;
     }
     struct GetSectorSizeReturn {
-        uint64 sector_size;
+        CommonTypes.SectorSize sector_size;
     }
     struct GetAvailableBalanceReturn {
         int256 available_balance;
@@ -346,8 +442,230 @@ library MinerTypes{
     struct PreCommitSectorBatchParams2 {
         CommonTypes.SectorPreCommitInfo[] sectors;
     }
+
+    struct ProveCommitSectorParams {
+        uint64 sector_number;
+        bytes proof;
+    }
+
+    struct ConfirmSectorProofsParams {
+        uint64[] sectors;
+        CommonTypes.FilterEstimate reward_smoothed;
+        int256 reward_baseline_power;
+        CommonTypes.FilterEstimate quality_adj_power_smoothed;
+    }
+    struct CheckSectorProvenParams {
+        uint64 sector_number;
+    }
+    struct ExtendSectorExpirationParams {
+        CommonTypes.ExpirationExtension[] extensions;
+    }
+
+    struct ExtendSectorExpiration2Params {
+        CommonTypes.ExpirationExtension2[] extensions;
+    }
+
+    struct TerminateSectorsParams {
+        CommonTypes.TerminationDeclaration[] terminations;
+    }
+
+    struct TerminateSectorsReturn {
+        bool done;
+    }
+
+    struct DeclareFaultsParams {
+        CommonTypes.FaultDeclaration[] faults;
+    }
+
+    struct DeclareFaultsRecoveredParams {
+        CommonTypes.RecoveryDeclaration[] recoveries;
+    }
+
+    struct CompactPartitionsParams {
+        uint64 deadline;
+        uint8 partitions;
+    }
+
+    struct CompactSectorNumbersParams {
+        uint8 mask_sector_numbers;
+    }
+
+    struct ApplyRewardParams {
+        int256 reward;
+        int256 penalty;
+    }
+
+    struct ReportConsensusFaultParams {
+        bytes header1;
+        bytes header2;
+        bytes header_extra;
+    }
+
+    struct WithdrawBalanceParams {
+        int256 amount_requested;
+    }
+
+    struct WithdrawBalanceReturn {
+        int256 amount_withdrawn;
+    }
+
+    struct ChangeBeneficiaryParams {
+        CommonTypes.Addr new_beneficiary;
+        int256 new_quota;
+        uint64 new_expiration;
+    }
+
+    struct GetBeneficiaryReturn {
+        CommonTypes.ActiveBeneficiary active;
+        CommonTypes.PendingBeneficiaryChange proposed;
+    }
+
+    struct DeferredCronEventParams {
+        bytes event_payload;
+        CommonTypes.FilterEstimate reward_smoothed;
+        CommonTypes.FilterEstimate quality_adj_power_smoothed;
+    }
 }
 
 library MinerAPI{
+    function control_addresses() internal returns (MinerTypes.GetControlAddressesReturn memory) {
+        CommonTypes.Addr memory owner;
+        CommonTypes.Addr memory worker;
+        CommonTypes.Addr[] memory control_addresses;
+
+        return MinerTypes.GetControlAddressesReturn(owner, worker, control_addresses);
+    }
+
+    function get_owner() internal returns (MinerTypes.GetOwnerReturn memory) {
+        CommonTypes.Addr memory owner;
+
+        return MinerTypes.GetOwnerReturn(owner);
+    }
+
+    function is_controlling_address( MinerTypes.IsControllingAddressParam memory params ) internal returns (MinerTypes.IsControllingAddressReturn memory) {
+        return MinerTypes.IsControllingAddressReturn(true);
+    }
+
+    function get_sector_size() internal returns (MinerTypes.GetSectorSizeReturn memory params ) {
+        return MinerTypes.GetSectorSizeReturn(CommonTypes.SectorSize._512MiB);
+    }
+
+    function get_available_balance( ) internal returns (MinerTypes.GetAvailableBalanceReturn memory params ) {
+        return MinerTypes.GetAvailableBalanceReturn(100000000);
+    }
+
+    function get_vesting_funds() internal returns (MinerTypes.GetVestingFundsReturn memory params ) {
+        CommonTypes.VestingFunds[] memory vesting_funds;
+
+        return MinerTypes.GetVestingFundsReturn(vesting_funds);
+    }
+
+    function change_worker_address( MinerTypes.ChangeWorkerAddressParams memory params ) internal {
+    }
+
+    function confirm_update_worker_key() internal {
+    }
+
+    function change_owner_address( CommonTypes.Addr memory new_address) internal {
+    }
+
+    function change_peer_id( MinerTypes.ChangePeerIDParams memory params) internal {
+    }
+
+    function change_multiaddresses( MinerTypes.ChangeMultiaddrsParams memory params ) internal {
+    }
+
+    function submit_windowed_post( MinerTypes.SubmitWindowedPoStParams memory params ) internal {
+    }
+
+    function prove_commit_aggregate( MinerTypes.ProveCommitAggregateParams memory params ) internal {
+    }
+
+    function prove_replica_updates( MinerTypes.ProveReplicaUpdatesParams memory params ) internal returns (uint8) {
+        return 0;
+    }
+
+    function prove_replica_updates2(MinerTypes.ProveReplicaUpdatesParams2 memory params ) internal returns (uint8) {
+        return 0;
+    }
+
+    function prove_replica_updates_inner(CommonTypes.ReplicaUpdateInner[] memory updates ) internal returns (uint8) {
+        return 0;
+    }
+
+    function dispute_windowed_post(MinerTypes.DisputeWindowedPoStParams memory params ) internal {
+    }
+
+    function pre_commit_sector(MinerTypes.PreCommitSectorParams memory params  ) internal {
+    }
+
+    function pre_commit_sector_batch(MinerTypes.PreCommitSectorBatchParams memory params ) internal {
+    }
+
+    function pre_commit_sector_batch2(MinerTypes.PreCommitSectorBatchParams2 memory params ) internal {
+    }
+
+    function pre_commit_sector_batch_inner(CommonTypes.SectorPreCommitInfoInner[] memory sectors   ) internal {
+    }
+
+    function prove_commit_sector(MinerTypes.ProveCommitSectorParams memory  params ) internal {
+    }
+
+    function confirm_sector_proofs_valid(MinerTypes.ConfirmSectorProofsParams memory params ) internal {
+    }
+
+    function check_sector_proven(MinerTypes.CheckSectorProvenParams memory params ) internal {
+    }
+
+    function extend_sector_expiration(MinerTypes.ExtendSectorExpirationParams memory params ) internal {
+    }
+
+    function extend_sector_expiration2(MinerTypes.ExtendSectorExpiration2Params memory  params ) internal {
+    }
+
+    function extend_sector_expiration_inner(CommonTypes.ExtendExpirationsInner memory inner, CommonTypes.ExtensionKind kind   ) internal {
+    }
+
+    function terminate_sectors(MinerTypes.TerminateSectorsParams memory params   ) internal returns (MinerTypes.TerminateSectorsReturn memory) {
+        return MinerTypes.TerminateSectorsReturn(true);
+    }
+
+    function declare_faults(MinerTypes.DeclareFaultsParams memory params ) internal {
+    }
+
+    function declare_faults_recovered(MinerTypes.DeclareFaultsRecoveredParams memory params ) internal {
+    }
+
+    function compact_partitions(MinerTypes.CompactPartitionsParams memory  params ) internal {
+    }
+
+    function compact_sector_numbers(MinerTypes.CompactSectorNumbersParams memory params ) internal {
+    }
+
+    function apply_rewards( MinerTypes.ApplyRewardParams memory params ) internal {
+    }
+
+    function report_consensus_fault(MinerTypes.ReportConsensusFaultParams memory params ) internal {
+    }
+
+    function withdraw_balance(MinerTypes.WithdrawBalanceParams memory params ) internal returns (MinerTypes.WithdrawBalanceReturn memory) {
+        return MinerTypes.WithdrawBalanceReturn(100000);
+    }
+
+    function change_beneficiary(MinerTypes.ChangeBeneficiaryParams memory params ) internal {
+    }
+
+    function get_beneficiary() internal returns (MinerTypes.GetBeneficiaryReturn memory) {
+        CommonTypes.ActiveBeneficiary memory active;
+        CommonTypes.PendingBeneficiaryChange memory proposed;
+
+        return MinerTypes.GetBeneficiaryReturn(active, proposed);
+    }
+
+    function repay_debt() internal {
+    }
+
+    function on_deferred_cron_event(MinerTypes.DeferredCronEventParams memory params ) internal {
+    }
 
 }
