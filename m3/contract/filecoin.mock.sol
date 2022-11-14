@@ -131,28 +131,28 @@ library CommonTypes{
     struct SectorPreCommitInfoInner {
         RegisteredSealProof seal_proof;
         uint64 sector_number;
-        CID sealed_cid;
+        bytes sealed_cid;
         int64 seal_rand_epoch;
         uint64[] deal_ids;
         int64 expiration;
-        CID unsealed_cid;
+        bytes unsealed_cid;
     }
 
     struct SectorPreCommitInfo {
         RegisteredSealProof seal_proof;
         uint64 sector_number;
-        CID sealed_cid;
+        bytes sealed_cid;
         int64 seal_rand_epoch;
         uint64[] deal_ids;
         int64 expiration;
-        CID unsealed_cid;
+        bytes unsealed_cid;
     }
     struct ReplicaUpdateInner {
         uint64 sector_number;
         uint64 deadline;
         uint64 partition;
-        CID new_sealed_cid;
-        CID new_unsealed_cid;
+        bytes new_sealed_cid;
+        bytes new_unsealed_cid;
         uint64[] deals;
         RegisteredUpdateProof update_proof_type;
         bytes replica_proof;
@@ -162,7 +162,7 @@ library CommonTypes{
         uint64 sector_number;
         uint64 deadline;
         uint64 partition;
-        CID new_sealed_cid;
+        bytes new_sealed_cid;
         uint64 deals;
         RegisteredUpdateProof update_proof_type;
         bytes replica_proof;
@@ -172,8 +172,8 @@ library CommonTypes{
         uint64 sector_number;
         uint64 deadline;
         uint64 partition;
-        CID new_sealed_cid;
-        CID new_unsealed_cid;
+        bytes new_sealed_cid;
+        bytes new_unsealed_cid;
         uint64 deals;
         RegisteredUpdateProof update_proof_type;
         bytes replica_proof;
@@ -210,7 +210,7 @@ library CommonTypes{
     }
 
     struct DealProposal {
-        CID piece_cid;
+        bytes piece_cid;
         uint64 piece_size;
         bool verified_deal;
         Addr client;
@@ -229,7 +229,7 @@ library CommonTypes{
     }
 
     struct SectorDealData {
-        CID commd;
+        bytes commd;
     }
 
     struct CID {
@@ -247,7 +247,7 @@ library CommonTypes{
     struct VerifiedDealInfo {
         uint64 client;
         uint64 allocation_id;
-        CID data;
+        bytes data;
         uint64 size;
     }
 
