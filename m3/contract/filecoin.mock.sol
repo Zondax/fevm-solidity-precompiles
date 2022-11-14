@@ -271,6 +271,85 @@ library MarketTypes{
     struct WithdrawBalanceReturn {
         int amount_withdrawn;
     }
+
+    struct GetBalanceReturn {
+        uint256 balance;
+        uint256 locked;
+    }
+
+    struct GetDealDataCommitmentParams {
+        uint64 id;
+    }
+
+    struct GetDealDataCommitmentReturn {
+        bytes data;
+        uint64 size;
+    }
+
+    struct GetDealClientParams {
+        uint64 id;
+    }
+
+    struct GetDealClientReturn {
+        uint64 client;
+    }
+
+    struct GetDealProviderParams {
+        uint64 id;
+    }
+
+    struct GetDealProviderReturn {
+        uint64 provider;
+    }
+
+    struct GetDealLabelParams {
+        uint64 id;
+    }
+
+    struct GetDealLabelReturn {
+        bytes label;
+    }
+
+    struct GetDealTermParams {
+        uint64 id;
+    }
+
+    struct GetDealTermReturn {
+        int64 start;
+        int64 end;
+    }
+
+    struct GetDealEpochPriceParams {
+        int64 id;
+    }
+
+    struct GetDealEpochPriceReturn {
+        uint256 price_per_epoch;
+    }
+
+    struct GetDealClientCollateralParams {
+        uint64 id;
+    }
+
+    struct GetDealClientCollateralReturn {
+        uint256 collateral;
+    }
+
+    struct GetDealProviderCollateralParams {
+        uint64 id;
+    }
+
+    struct GetDealProviderCollateralReturn {
+        uint256 collateral;
+    }
+
+    struct GetDealVerifiedParams {
+        uint64 id;
+    }
+
+    struct GetDealVerifiedReturn {
+        bool verified;
+    }
 }
 
 library MarketAPI{
@@ -279,6 +358,46 @@ library MarketAPI{
 
     function withdraw_balance(MarketTypes.WithdrawBalanceParams memory params) internal returns (MarketTypes.WithdrawBalanceReturn memory) {
         return MarketTypes.WithdrawBalanceReturn(1);
+    }
+
+    function get_balance(CommonTypes.Addr memory addr) internal returns (MarketTypes.GetBalanceReturn memory) {
+        return MarketTypes.GetBalanceReturn(10000000, 10000000);
+    }
+
+    function get_deal_data_commitment(MarketTypes.GetDealDataCommitmentParams memory params) internal returns (MarketTypes.GetDealDataCommitmentReturn memory) {
+        return MarketTypes.GetDealDataCommitmentReturn(bytes("0x111111"), 10000);
+    }
+
+    function get_deal_client(MarketTypes.GetDealClientParams memory params) internal returns (MarketTypes.GetDealClientReturn memory) {
+        return MarketTypes.GetDealClientReturn(1);
+    }
+
+    function get_deal_provider(MarketTypes.GetDealProviderParams memory params) internal returns (MarketTypes.GetDealProviderReturn memory) {
+        return MarketTypes.GetDealProviderReturn(1);
+    }
+
+    function get_deal_label(MarketTypes.GetDealLabelParams memory params) internal returns (MarketTypes.GetDealLabelReturn memory) {
+        return MarketTypes.GetDealLabelReturn(bytes("0x111111"));
+    }
+
+    function get_deal_term(MarketTypes.GetDealTermParams memory params) internal returns (MarketTypes.GetDealTermReturn memory) {
+        return MarketTypes.GetDealTermReturn(1668428301, 1699964301);
+    }
+
+    function get_deal_epoch_price(MarketTypes.GetDealEpochPriceParams memory params) internal returns (MarketTypes.GetDealEpochPriceReturn memory) {
+        return MarketTypes.GetDealEpochPriceReturn(1);
+    }
+
+    function get_deal_client_collateral(MarketTypes.GetDealClientCollateralParams memory params) internal returns (MarketTypes.GetDealClientCollateralReturn memory) {
+        return MarketTypes.GetDealClientCollateralReturn(1);
+    }
+
+    function get_deal_provider_collateral(MarketTypes.GetDealProviderCollateralParams memory params) internal returns (MarketTypes.GetDealProviderCollateralReturn memory) {
+        return MarketTypes.GetDealProviderCollateralReturn(1);
+    }
+
+    function get_deal_verified(MarketTypes.GetDealVerifiedParams memory params) internal returns (MarketTypes.GetDealVerifiedReturn memory) {
+        return MarketTypes.GetDealVerifiedReturn(true);
     }
 }
 
