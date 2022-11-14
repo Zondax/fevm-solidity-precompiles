@@ -350,6 +350,15 @@ library MarketTypes{
     struct GetDealVerifiedReturn {
         bool verified;
     }
+
+    struct GetDealActivationParams {
+        uint64 id;
+    }
+
+    struct GetDealActivationReturn {
+        int64 activated;
+        int64 terminated;
+    }
 }
 
 library MarketAPI{
@@ -398,6 +407,10 @@ library MarketAPI{
 
     function get_deal_verified(MarketTypes.GetDealVerifiedParams memory params) internal returns (MarketTypes.GetDealVerifiedReturn memory) {
         return MarketTypes.GetDealVerifiedReturn(true);
+    }
+
+    function get_deal_activation(MarketTypes.GetDealActivationParams memory params) internal returns (MarketTypes.GetDealActivationReturn memory) {
+        return MarketTypes.GetDealActivationReturn(1, 1);
     }
 }
 

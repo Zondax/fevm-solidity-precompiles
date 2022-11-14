@@ -76,4 +76,11 @@ contract FilecoinMarketMockTest {
 
         MarketTypes.GetDealVerifiedReturn memory response = MarketAPI.get_deal_verified(params);
     }
+
+    function get_deal_activation_test() public{
+        uint64 id;
+        MarketTypes.GetDealActivationParams memory params = MarketTypes.GetDealActivationParams(id);
+
+        MarketTypes.GetDealActivationReturn memory response = MarketAPI.get_deal_activation(params);
+    }
 }
