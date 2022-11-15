@@ -66,7 +66,7 @@ library CommonTypes{
     }
 
     struct PendingBeneficiaryChange {
-        Addr new_beneficiary;
+        bytes new_beneficiary;
         int256 new_quota;
         uint64 new_expiration;
         bool approved_by_beneficiary;
@@ -80,7 +80,7 @@ library CommonTypes{
     }
 
     struct ActiveBeneficiary {
-        Addr beneficiary;
+        bytes beneficiary;
         BeneficiaryTerm term;
     }
 
@@ -199,11 +199,6 @@ library CommonTypes{
         uint64 [] deal_ids;
     }
 
-    struct Addr{
-        int network;
-        bytes payload;
-    }
-
     struct Signature {
         int8 sig_type;
         bytes data;
@@ -213,8 +208,8 @@ library CommonTypes{
         bytes piece_cid;
         uint64 piece_size;
         bool verified_deal;
-        Addr client;
-        Addr provider;
+        bytes client;
+        bytes provider;
         string label;
         int64 start_epoch;
         int64 end_epoch;
@@ -260,16 +255,16 @@ library CommonTypes{
 
 library MarketTypes{
     struct AddBalanceParams {
-        CommonTypes.Addr provider_or_client;
+        bytes provider_or_client;
     }
 
     struct WithdrawBalanceParams {
-        CommonTypes.Addr provider_or_client;
-        int tokenAmount;
+        bytes provider_or_client;
+        uint256 tokenAmount;
     }
 
     struct WithdrawBalanceReturn {
-        int amount_withdrawn;
+        uint256 amount_withdrawn;
     }
 
     struct GetBalanceReturn {
@@ -361,65 +356,70 @@ library MarketTypes{
     }
 }
 
-library MarketAPI{
-    function add_balance(MarketTypes.AddBalanceParams memory params) internal {
+contract MarketAPI{
+    mapping(bytes => uint256) balances;
+
+    function add_balance(MarketTypes.AddBalanceParams memory params) public payable {
+        balances[params.provider_or_client] += msg.value;
     }
 
-    function withdraw_balance(MarketTypes.WithdrawBalanceParams memory params) internal returns (MarketTypes.WithdrawBalanceReturn memory) {
+    function withdraw_balance(MarketTypes.WithdrawBalanceParams memory params) public returns (MarketTypes.WithdrawBalanceReturn memory) {
         return MarketTypes.WithdrawBalanceReturn(1);
     }
 
-    function get_balance(CommonTypes.Addr memory addr) internal returns (MarketTypes.GetBalanceReturn memory) {
-        return MarketTypes.GetBalanceReturn(10000000, 10000000);
+    function get_balance(bytes memory addr) public returns (MarketTypes.GetBalanceReturn memory) {
+        uint256 actualBalance = balances[addr];
+
+        return MarketTypes.GetBalanceReturn(actualBalance, 0);
     }
 
-    function get_deal_data_commitment(MarketTypes.GetDealDataCommitmentParams memory params) internal returns (MarketTypes.GetDealDataCommitmentReturn memory) {
+    function get_deal_data_commitment(MarketTypes.GetDealDataCommitmentParams memory params) public returns (MarketTypes.GetDealDataCommitmentReturn memory) {
         return MarketTypes.GetDealDataCommitmentReturn(bytes("0x111111"), 10000);
     }
 
-    function get_deal_client(MarketTypes.GetDealClientParams memory params) internal returns (MarketTypes.GetDealClientReturn memory) {
+    function get_deal_client(MarketTypes.GetDealClientParams memory params) public returns (MarketTypes.GetDealClientReturn memory) {
         return MarketTypes.GetDealClientReturn(1);
     }
 
-    function get_deal_provider(MarketTypes.GetDealProviderParams memory params) internal returns (MarketTypes.GetDealProviderReturn memory) {
+    function get_deal_provider(MarketTypes.GetDealProviderParams memory params) public returns (MarketTypes.GetDealProviderReturn memory) {
         return MarketTypes.GetDealProviderReturn(1);
     }
 
-    function get_deal_label(MarketTypes.GetDealLabelParams memory params) internal returns (MarketTypes.GetDealLabelReturn memory) {
+    function get_deal_label(MarketTypes.GetDealLabelParams memory params) public returns (MarketTypes.GetDealLabelReturn memory) {
         return MarketTypes.GetDealLabelReturn(bytes("0x111111"));
     }
 
-    function get_deal_term(MarketTypes.GetDealTermParams memory params) internal returns (MarketTypes.GetDealTermReturn memory) {
+    function get_deal_term(MarketTypes.GetDealTermParams memory params) public returns (MarketTypes.GetDealTermReturn memory) {
         return MarketTypes.GetDealTermReturn(1668428301, 1699964301);
     }
 
-    function get_deal_epoch_price(MarketTypes.GetDealEpochPriceParams memory params) internal returns (MarketTypes.GetDealEpochPriceReturn memory) {
+    function get_deal_epoch_price(MarketTypes.GetDealEpochPriceParams memory params) public returns (MarketTypes.GetDealEpochPriceReturn memory) {
         return MarketTypes.GetDealEpochPriceReturn(1);
     }
 
-    function get_deal_client_collateral(MarketTypes.GetDealClientCollateralParams memory params) internal returns (MarketTypes.GetDealClientCollateralReturn memory) {
+    function get_deal_client_collateral(MarketTypes.GetDealClientCollateralParams memory params) public returns (MarketTypes.GetDealClientCollateralReturn memory) {
         return MarketTypes.GetDealClientCollateralReturn(1);
     }
 
-    function get_deal_provider_collateral(MarketTypes.GetDealProviderCollateralParams memory params) internal returns (MarketTypes.GetDealProviderCollateralReturn memory) {
+    function get_deal_provider_collateral(MarketTypes.GetDealProviderCollateralParams memory params) public returns (MarketTypes.GetDealProviderCollateralReturn memory) {
         return MarketTypes.GetDealProviderCollateralReturn(1);
     }
 
-    function get_deal_verified(MarketTypes.GetDealVerifiedParams memory params) internal returns (MarketTypes.GetDealVerifiedReturn memory) {
+    function get_deal_verified(MarketTypes.GetDealVerifiedParams memory params) public returns (MarketTypes.GetDealVerifiedReturn memory) {
         return MarketTypes.GetDealVerifiedReturn(true);
     }
 
-    function get_deal_activation(MarketTypes.GetDealActivationParams memory params) internal returns (MarketTypes.GetDealActivationReturn memory) {
+    function get_deal_activation(MarketTypes.GetDealActivationParams memory params) public returns (MarketTypes.GetDealActivationReturn memory) {
         return MarketTypes.GetDealActivationReturn(1, 1);
     }
 }
 
 library MinerTypes{
     struct GetOwnerReturn {
-        CommonTypes.Addr owner;
+        bytes owner;
     }
     struct IsControllingAddressParam {
-        CommonTypes.Addr addr;
+        bytes addr;
     }
     struct IsControllingAddressReturn {
         bool is_controlling;
@@ -435,7 +435,7 @@ library MinerTypes{
     }
 
     struct ChangeBeneficiaryParams {
-        CommonTypes.Addr new_beneficiary;
+        bytes new_beneficiary;
         int256 new_quota;
         uint64 new_expiration;
     }
@@ -446,41 +446,53 @@ library MinerTypes{
     }
 }
 
-library MinerAPI{
+contract MinerAPI{
+    bytes owner;
+    CommonTypes.ActiveBeneficiary activeBeneficiary;
+    bool isBeneficiarySet = false;
 
-    function get_owner() internal returns (MinerTypes.GetOwnerReturn memory) {
-        CommonTypes.Addr memory owner;
+    function get_owner() public returns (MinerTypes.GetOwnerReturn memory)  {
+        require(owner.length != 0);
 
         return MinerTypes.GetOwnerReturn(owner);
     }
 
-    function is_controlling_address( MinerTypes.IsControllingAddressParam memory params ) internal returns (MinerTypes.IsControllingAddressReturn memory) {
-        return MinerTypes.IsControllingAddressReturn(true);
+    function is_controlling_address( MinerTypes.IsControllingAddressParam memory params ) public returns (MinerTypes.IsControllingAddressReturn memory) {
+        return MinerTypes.IsControllingAddressReturn(false);
     }
 
-    function get_sector_size() internal returns (MinerTypes.GetSectorSizeReturn memory params ) {
-        return MinerTypes.GetSectorSizeReturn(CommonTypes.SectorSize._512MiB);
+    function get_sector_size() public returns (MinerTypes.GetSectorSizeReturn memory params ) {
+        return MinerTypes.GetSectorSizeReturn(CommonTypes.SectorSize._8MiB);
     }
 
-    function get_available_balance( ) internal returns (MinerTypes.GetAvailableBalanceReturn memory params ) {
-        return MinerTypes.GetAvailableBalanceReturn(100000000);
+    function get_available_balance( ) public returns (MinerTypes.GetAvailableBalanceReturn memory params ) {
+        return MinerTypes.GetAvailableBalanceReturn(10000000000000000000000);
     }
 
-
-    function get_vesting_funds() internal returns (MinerTypes.GetVestingFundsReturn memory params ) {
-        CommonTypes.VestingFunds[] memory vesting_funds;
+    function get_vesting_funds() public returns (MinerTypes.GetVestingFundsReturn memory params ) {
+        CommonTypes.VestingFunds[] memory vesting_funds = new CommonTypes.VestingFunds[](1);
+        vesting_funds[0] = CommonTypes.VestingFunds(1668514825, 2000000000000000000000);
 
         return MinerTypes.GetVestingFundsReturn(vesting_funds);
     }
 
-    function change_beneficiary(MinerTypes.ChangeBeneficiaryParams memory params ) internal {
+    function change_beneficiary(MinerTypes.ChangeBeneficiaryParams memory params) public {
+        if(!isBeneficiarySet){
+            CommonTypes.BeneficiaryTerm memory term = CommonTypes.BeneficiaryTerm(params.new_quota, 0, params.new_expiration);
+            activeBeneficiary = CommonTypes.ActiveBeneficiary(params.new_beneficiary, term);
+            isBeneficiarySet = true;
+        } else {
+            activeBeneficiary.beneficiary = params.new_beneficiary;
+            activeBeneficiary.term.quota = params.new_quota;
+            activeBeneficiary.term.expiration = params.new_expiration;
+        }
     }
 
-    function get_beneficiary() internal returns (MinerTypes.GetBeneficiaryReturn memory) {
-        CommonTypes.ActiveBeneficiary memory active;
-        CommonTypes.PendingBeneficiaryChange memory proposed;
+    function get_beneficiary() public returns (MinerTypes.GetBeneficiaryReturn memory) {
+        require(isBeneficiarySet);
 
-        return MinerTypes.GetBeneficiaryReturn(active, proposed);
+        CommonTypes.PendingBeneficiaryChange memory proposed;
+        return MinerTypes.GetBeneficiaryReturn(activeBeneficiary, proposed);
     }
 
 }
