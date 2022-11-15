@@ -415,8 +415,9 @@ contract MarketAPI{
 
     function relay_deal(bytes memory raw_auth_params, address callee) public {
         // calls standard filecoin receiver on message authentication api method number
-        callee.call(bytes4(keccak256("handle_filecoin_method(uint64,uint64,bytes)")), 0, 2643134072, raw_auth_params);
+        callee.call(abi.encodeWithSignature("handle_filecoin_method(uint64,uint64,bytes)", 0, 2643134072, raw_auth_params));
     }
+    
 }
 
 library MinerTypes{
