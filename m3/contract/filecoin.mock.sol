@@ -413,9 +413,10 @@ contract MarketAPI{
         return MarketTypes.GetDealActivationReturn(1, 1);
     }
 
-    function relay_deal(bytes memory raw_auth_params, address callee) public {
+    function publish_deal(bytes memory raw_auth_params, address callee) public {
         // calls standard filecoin receiver on message authentication api method number
-        callee.call(abi.encodeWithSignature("handle_filecoin_method(uint64,uint64,bytes)", 0, 2643134072, raw_auth_params));
+        (bool success, bytes memory _ret) = callee.call(abi.encodeWithSignature("handle_filecoin_method(uint64,uint64,bytes)", 0, 2643134072, raw_auth_params));
+        require(success, "client contract failed to authorize deal publish");
     }
     
 }
