@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: Apache-2.0
 pragma solidity >=0.4.25 <= 0.8.15;
 
 import { MarketTypes, MarketAPI, CommonTypes } from "./filecoin.mock.sol";
@@ -9,7 +10,7 @@ contract FilecoinMarketMockTest {
         marketApiAddress = _marketApiAddress;
     }
 
-    function market_withdraw_balance_test() public{
+    function market_withdraw_balance_test() public view{
         MarketAPI marketApiInstance = MarketAPI(marketApiAddress);
 
         bytes memory addr = bytes("0x1111");
@@ -35,7 +36,7 @@ contract FilecoinMarketMockTest {
         MarketTypes.GetBalanceReturn memory response = marketApiInstance.get_balance(params);
     }
 
-    function get_deal_data_commitment_test() public{
+    function get_deal_data_commitment_test() public view{
         MarketAPI marketApiInstance = MarketAPI(marketApiAddress);
 
         MarketTypes.GetDealDataCommitmentParams memory params = MarketTypes.GetDealDataCommitmentParams(1);
@@ -43,7 +44,7 @@ contract FilecoinMarketMockTest {
         MarketTypes.GetDealDataCommitmentReturn memory response = marketApiInstance.get_deal_data_commitment(params);
     }
 
-    function get_deal_client_test() public{
+    function get_deal_client_test() public view{
         MarketAPI marketApiInstance = MarketAPI(marketApiAddress);
 
         MarketTypes.GetDealClientParams memory params = MarketTypes.GetDealClientParams(1);
@@ -51,7 +52,7 @@ contract FilecoinMarketMockTest {
         MarketTypes.GetDealClientReturn memory response = marketApiInstance.get_deal_client(params);
     }
 
-    function get_deal_provider_test() public{
+    function get_deal_provider_test() public view{
         MarketAPI marketApiInstance = MarketAPI(marketApiAddress);
 
         MarketTypes.GetDealProviderParams memory params = MarketTypes.GetDealProviderParams(1);
@@ -59,7 +60,7 @@ contract FilecoinMarketMockTest {
         MarketTypes.GetDealProviderReturn memory response = marketApiInstance.get_deal_provider(params);
     }
 
-    function get_deal_label_test() public{
+    function get_deal_label_test() public view{
         MarketAPI marketApiInstance = MarketAPI(marketApiAddress);
 
         MarketTypes.GetDealLabelParams memory params = MarketTypes.GetDealLabelParams(1);
@@ -67,7 +68,7 @@ contract FilecoinMarketMockTest {
         MarketTypes.GetDealLabelReturn memory response = marketApiInstance.get_deal_label(params);
     }
 
-    function get_deal_term_test() public{
+    function get_deal_term_test() public view{
         MarketAPI marketApiInstance = MarketAPI(marketApiAddress);
 
         MarketTypes.GetDealTermParams memory params = MarketTypes.GetDealTermParams(1);
@@ -75,7 +76,7 @@ contract FilecoinMarketMockTest {
         MarketTypes.GetDealTermReturn memory response = marketApiInstance.get_deal_term(params);
     }
 
-    function get_deal_epoch_price_test() public{
+    function get_deal_epoch_price_test() public view{
         MarketAPI marketApiInstance = MarketAPI(marketApiAddress);
 
         MarketTypes.GetDealEpochPriceParams memory params = MarketTypes.GetDealEpochPriceParams(1);
@@ -83,7 +84,7 @@ contract FilecoinMarketMockTest {
         MarketTypes.GetDealEpochPriceReturn memory response = marketApiInstance.get_deal_epoch_price(params);
     }
 
-    function get_deal_client_collateral_test() public{
+    function get_deal_client_collateral_test() public view{
         MarketAPI marketApiInstance = MarketAPI(marketApiAddress);
 
         MarketTypes.GetDealClientCollateralParams memory params = MarketTypes.GetDealClientCollateralParams(1);
@@ -91,7 +92,7 @@ contract FilecoinMarketMockTest {
         MarketTypes.GetDealClientCollateralReturn memory response = marketApiInstance.get_deal_client_collateral(params);
     }
 
-    function get_deal_provider_collateral_test() public{
+    function get_deal_provider_collateral_test() public view{
         MarketAPI marketApiInstance = MarketAPI(marketApiAddress);
 
         MarketTypes.GetDealProviderCollateralParams memory params = MarketTypes.GetDealProviderCollateralParams(1);
@@ -99,7 +100,7 @@ contract FilecoinMarketMockTest {
         MarketTypes.GetDealProviderCollateralReturn memory response = marketApiInstance.get_deal_provider_collateral(params);
     }
 
-    function get_deal_verified_test() public{
+    function get_deal_verified_test() public view{
         MarketAPI marketApiInstance = MarketAPI(marketApiAddress);
 
         MarketTypes.GetDealVerifiedParams memory params = MarketTypes.GetDealVerifiedParams(1);
@@ -107,7 +108,7 @@ contract FilecoinMarketMockTest {
         MarketTypes.GetDealVerifiedReturn memory response = marketApiInstance.get_deal_verified(params);
     }
 
-    function get_deal_activation_test() public{
+    function get_deal_activation_test() public view{
         MarketAPI marketApiInstance = MarketAPI(marketApiAddress);
 
         uint64 id;
