@@ -14,7 +14,7 @@ library MinerTypes{
         bool is_controlling;
     }
     struct GetSectorSizeReturn {
-        CommonTypes.SectorSize sector_size;
+        uint64 sector_size;
     }
     struct GetAvailableBalanceReturn {
         int256 available_balance;

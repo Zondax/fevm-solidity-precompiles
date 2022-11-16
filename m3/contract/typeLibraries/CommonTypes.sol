@@ -43,8 +43,7 @@ library CommonTypes{
         ExtendCommittmentLegacy,
         ExtendCommittment
     }
-
-    // FIXME this is actually an int64 on rust
+    
     enum SectorSize {
         _2KiB,
         _8MiB,

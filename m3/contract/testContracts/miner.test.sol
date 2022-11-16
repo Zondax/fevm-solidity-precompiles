@@ -32,7 +32,7 @@ contract FilecoinMinerMockTest {
         MinerTypes.IsControllingAddressReturn memory response = minerApiInstance.is_controlling_address(params);
     }
 
-    function get_sector_size_test() public view {
+    function get_sector_size_test() public {
         MinerAPI minerApiInstance = MinerAPI(minerApiAddress);
 
         MinerTypes.GetSectorSizeReturn memory response = minerApiInstance.get_sector_size();

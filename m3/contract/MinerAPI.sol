@@ -5,11 +5,18 @@ import "./typeLibraries/MinerTypes.sol";
 
 contract MinerAPI{
     bytes owner;
-    CommonTypes.ActiveBeneficiary activeBeneficiary;
     bool isBeneficiarySet = false;
+    CommonTypes.ActiveBeneficiary activeBeneficiary;
+    mapping(CommonTypes.SectorSize => uint64) sectorSizesBytes;
 
     constructor(bytes memory _owner){
         owner = _owner;
+
+        sectorSizesBytes[CommonTypes.SectorSize._2KiB] = 2 << 10;
+        sectorSizesBytes[CommonTypes.SectorSize._8MiB] = 8 << 20;
+        sectorSizesBytes[CommonTypes.SectorSize._512MiB] = 512 << 20;
+        sectorSizesBytes[CommonTypes.SectorSize._32GiB] = 32 << 30;
+        sectorSizesBytes[CommonTypes.SectorSize._64GiB] = 2 * (32 << 30);
     }
 
     function set_owner(bytes memory addr) public {
@@ -27,8 +34,8 @@ contract MinerAPI{
         return MinerTypes.IsControllingAddressReturn(false);
     }
 
-    function get_sector_size() public pure returns (MinerTypes.GetSectorSizeReturn memory params ) {
-        return MinerTypes.GetSectorSizeReturn(CommonTypes.SectorSize._8MiB);
+    function get_sector_size() public returns (MinerTypes.GetSectorSizeReturn memory params ) {
+        return MinerTypes.GetSectorSizeReturn(sectorSizesBytes[CommonTypes.SectorSize._8MiB]);
     }
 
     function get_available_balance( ) public pure returns (MinerTypes.GetAvailableBalanceReturn memory params ) {
@@ -59,6 +66,10 @@ contract MinerAPI{
 
         CommonTypes.PendingBeneficiaryChange memory proposed;
         return MinerTypes.GetBeneficiaryReturn(activeBeneficiary, proposed);
+    }
+
+    function get_sector_size_from_enum() internal returns (uint64){
+
     }
 
 }
