@@ -3,10 +3,10 @@ build: build_api
 build_api: build_market_api build_miner_api
 
 build_market_api:
-	./bin/solc contract/market.test.sol --output-dir ./build --overwrite --bin --hashes --opcodes
+	./bin/solc contract/testContracts/market.test.sol --output-dir ./build --overwrite --bin --hashes --opcodes
 
 build_miner_api:
-	./bin/solc contract/miner.test.sol --output-dir ./build --overwrite --bin --hashes --opcodes
+	./bin/solc contract/testContracts/miner.test.sol --output-dir ./build --overwrite --bin --hashes --opcodes
 
 install_solc_linux:
 	wget https://binaries.soliditylang.org/linux-amd64/solc-linux-amd64-v0.8.15+commit.e14f2714

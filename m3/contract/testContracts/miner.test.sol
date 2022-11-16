@@ -1,7 +1,9 @@
 // SPDX-License-Identifier: Apache-2.0
 pragma solidity >=0.4.25 <= 0.8.15;
 
-import { MinerTypes, MinerAPI, CommonTypes } from "./filecoin.mock.sol";
+import { MinerAPI } from "../MinerAPI.sol";
+import { CommonTypes } from "../typeLibraries/CommonTypes.sol";
+import { MinerTypes } from "../typeLibraries/MinerTypes.sol";
 
 
 contract FilecoinMinerMockTest {

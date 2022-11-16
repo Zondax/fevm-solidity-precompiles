@@ -1,7 +1,9 @@
 // SPDX-License-Identifier: Apache-2.0
 pragma solidity >=0.4.25 <= 0.8.15;
 
-import { MarketTypes, MarketAPI, CommonTypes } from "./filecoin.mock.sol";
+import { MarketAPI } from "../MarketAPI.sol";
+import { CommonTypes } from "../typeLibraries/CommonTypes.sol";
+import { MarketTypes } from "../typeLibraries/MarketTypes.sol";
 
 contract FilecoinMarketMockTest {
     address marketApiAddress;
