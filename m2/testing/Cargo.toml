@@ -24,7 +24,7 @@ serde_tuple = "0.5"
 wabt = "0.10.0"
 hex = "0.4.3"
 cid = "0.8.5"
-prettytable-rs = "^0.9"
+prettytable-rs = "^0.10"
 
 
 fil_actors_runtime = { version = "10.0.0-alpha.1", git = "https://github.com/filecoin-project/builtin-actors", rev = "17f314e5d5f2402e284109aaf477063f2614a0c9", features = ["m2-native"] }
